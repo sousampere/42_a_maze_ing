@@ -169,5 +169,3 @@ if __name__ == '__main__':
     conf = get_parsed_config('/home/gtourdia/Documents/42_a_maze_ing/config.txt')
     print(conf)
     print(random.random())
-    print(random.random())
-    print(random.random())
