@@ -85,6 +85,7 @@ class Cell():
         return available_directions[direction]
     
     def debug(self) -> dict[str:int]:
+        """ Prints the data of the cell, for debug purposes """
         print('=== CELL DEBUG ===')
         print(f'|North: {self._north}')
         print(f'|East: {self._east}')
@@ -97,3 +98,4 @@ if __name__ == '__main__':
     ExampleCell = Cell(0, 0, 0, 0)
     ExampleCell.set_direction('east', 1)
     ExampleCell.debug()
+    print(ExampleCell.directions())
