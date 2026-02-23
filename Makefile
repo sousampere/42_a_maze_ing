@@ -30,10 +30,10 @@ INTERPRETER			=	python3
 install:
 	@echo "$(YELLOW)╔════════════════════════════════════════════════════════════════╗"
 	@echo "$(YELLOW)║                                                                ║"
-	@echo "$(YELLOW)║  44  44    2222    $(GREEN)Made by $(AUTHOR) $(YELLOW)                           ║"
-	@echo "$(YELLOW)║  44  44   22  22   Project: $(CYAN)$(PROJECT_NAME) $(YELLOW)                     ║"
+	@echo "$(YELLOW)║  44  44    2222    $(GREEN)Made by $(AUTHOR) $(YELLOW)                 ║"
+	@echo "$(YELLOW)║  44  44   22  22   Project: $(CYAN)$(PROJECT_NAME) $(YELLOW)                        ║"
 	@echo "$(YELLOW)║  444444      22    Started in: $(CYAN)$(PROJECT_START_DATE) $(YELLOW)                     ║"
-	@echo "$(YELLOW)║      44     22     Github: $(CYAN)$(GITHUB) $(YELLOW)     ║"
+	@echo "$(YELLOW)║      44     22                                                 ║"
 	@echo "$(YELLOW)║      44   222222                                               ║"
 	@echo "$(YELLOW)║                                                                ║"
 	@echo "$(YELLOW)╚════════════════════════════════════════════════════════════════╝"
