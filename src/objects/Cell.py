@@ -40,7 +40,7 @@ class Cell():
             'north': self._north,
             'east': self._east,
             'south': self._south,
-            'west': self.west
+            'west': self._west
             }
         if (direction not in available_directions.keys()):
             raise CellDirectionException(f'Invalid direction. Must be a direction in {available_directions.keys()}')
@@ -52,7 +52,7 @@ class Cell():
             'north': self._north,
             'east': self._east,
             'south': self._south,
-            'west': self.west
+            'west': self._west
             }
 
     def set_direction(self, direction: str, value: int) -> None:
@@ -61,7 +61,7 @@ class Cell():
             'north': self._north,
             'east': self._east,
             'south': self._south,
-            'west': self.west
+            'west': self._west
             }
         if (direction not in available_directions.keys()):
             raise CellDirectionException(f'Invalid direction. Must be a direction in {available_directions.keys()}')
@@ -76,3 +76,17 @@ class Cell():
                 self._west = value
 
         return available_directions[direction]
+    
+    def debug(self) -> dict[str:int]:
+        print('=== CELL DEBUG ===')
+        print(f'|North: {self._north}')
+        print(f'|East: {self._east}')
+        print(f'|South: {self._south}')
+        print(f'|West: {self._west}')
+        print('==================')
+        return self.directions()
+
+if __name__ == '__main__':
+    ExampleCell = Cell(0, 0, 0, 0)
+    ExampleCell.set_direction('east', 1)
+    ExampleCell.debug()
