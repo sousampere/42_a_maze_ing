@@ -1,7 +1,12 @@
 #!/usr/bin/python3
 
 
+import string
+
 from pydantic import BaseModel, Field, model_validator
+import random
+
+
 
 
 class ParsingError(Exception):
@@ -22,6 +27,7 @@ class Config(BaseModel):
     exit_coords: dict[str, int]
     output_file: str
     perfect: bool
+    seed: str
 
     @model_validator(mode='after')
     def validate(self) -> "Config":
@@ -34,6 +40,13 @@ class Config(BaseModel):
             raise ConfigError(f'Invalid entry coords: {self.entry_coords}. Please use at least a 2x2 Maze.')
         if self.exit_coords['x'] < 0 or self.exit_coords['y'] < 0:
             raise ConfigError(f'Invalid exit coords: {self.exit_coords}. Please use at least a 2x2 Maze.')
+        if self.exit_coords['x'] > self.width or self.exit_coords['y'] > self.height:
+            raise ConfigError(f'Invalid exit coords: {self.exit_coords}. Outside the maze\'s range.')
+        if self.entry_coords['x'] > self.width or self.entry_coords['y'] > self.height:
+            raise ConfigError(f'Invalid exit coords: {self.exit_coords}. Outside the maze\'s range.')
+
+        # Initialize seed
+        random.seed(self.seed)
         return self
 
 
@@ -136,6 +149,11 @@ def get_parsed_config(config_path: str = '../config.txt') -> Config:
     config['ENTRY'] = {'x': config['ENTRY'][0], 'y': config['ENTRY'][1]}
     config['EXIT'] = {'x': config['EXIT'][0], 'y': config['EXIT'][1]}
 
+    # Use random seed if the seed is not specified
+    if 'SEED' not in config.keys():
+        seed = ''.join(random.choices(string.ascii_lowercase + string.digits, k=5))
+        config['SEED'] = seed
+
     # Create and return the Config object
     return Config(
         width=config['WIDTH'],
@@ -143,9 +161,13 @@ def get_parsed_config(config_path: str = '../config.txt') -> Config:
         entry_coords=config['ENTRY'],
         exit_coords=config['EXIT'],
         output_file=config['OUTPUT_FILE'],
-        perfect=config['PERFECT']
+        perfect=config['PERFECT'],
+        seed=config['SEED']
         )
 
 if __name__ == '__main__':
     conf = get_parsed_config('/home/gtourdia/Documents/42_a_maze_ing/config.txt')
     print(conf)
+    print(random.random())
+    print(random.random())
+    print(random.random())
