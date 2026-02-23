@@ -1,8 +1,40 @@
 #!/usr/bin/python3
 
 
+from pydantic import BaseModel, Field, model_validator
+
+
 class ParsingError(Exception):
+    """ Parsing Error """
     pass
+
+
+class ConfigError(Exception):
+    """ Configuration Error """
+    pass
+
+
+class Config(BaseModel):
+    """ Config object, containing the configuration data """
+    width: int = Field(ge=2)
+    height: int = Field(ge=2)
+    entry_coords: dict[str, int]
+    exit_coords: dict[str, int]
+    output_file: str
+    perfect: bool
+
+    @model_validator(mode='after')
+    def validate(self) -> "Config":
+        # Verify that there is no space in the output_file name
+        if ' ' in self.output_file:
+            raise ConfigError(f'Invalid file name: {self.output_file}')
+
+        # Verify that the Entry/Exit is inside the Maze
+        if self.entry_coords['x'] < 0 or self.entry_coords['y'] < 0:
+            raise ConfigError(f'Invalid entry coords: {self.entry_coords}. Please use at least a 2x2 Maze.')
+        if self.exit_coords['x'] < 0 or self.exit_coords['y'] < 0:
+            raise ConfigError(f'Invalid exit coords: {self.exit_coords}. Please use at least a 2x2 Maze.')
+        return self
 
 
 def add_config(config: dict[str: any], key: str, value: str, type: object, line: int) -> dict[str: any]:
@@ -36,9 +68,12 @@ def add_config(config: dict[str: any], key: str, value: str, type: object, line:
             config[key] = False
         else:
             raise ParsingError(f'Could not parse config at line {line}: invalid boolean "{value}".')
+
+    # Return the new config dictionnary, containing the parsed line
     return config
 
-def get_parsed_config(config_path: str = '../config.txt') -> dict[str: str|int]:
+def get_parsed_config(config_path: str = '../config.txt') -> Config:
+    """ Returns parsed the configuration (Config Object) from a given config_file path. """
     with open(config_path, 'r') as f:
 
         # Ignore comments
@@ -51,6 +86,8 @@ def get_parsed_config(config_path: str = '../config.txt') -> dict[str: str|int]:
         current_line = 0
         for line in raw_config:
             current_line += 1
+
+            # Integer
             if (line.startswith('WIDTH=')
                 or line.startswith('HEIGHT=')):
                 config = add_config(config=config,
@@ -58,6 +95,8 @@ def get_parsed_config(config_path: str = '../config.txt') -> dict[str: str|int]:
                            value=line.split('=')[1],
                            type=int,
                            line=current_line)
+                
+            # Tuple / Coordinate
             if (line.startswith('ENTRY=')
                 or line.startswith('EXIT=')):
                 config = add_config(config=config,
@@ -65,6 +104,8 @@ def get_parsed_config(config_path: str = '../config.txt') -> dict[str: str|int]:
                            value=line.split('=')[1],
                            type=tuple,
                            line=current_line)
+                
+            # String
             if (line.startswith('OUTPUT_FILE=')
                 or line.startswith('SEED=')):
                 config = add_config(config=config,
@@ -72,6 +113,8 @@ def get_parsed_config(config_path: str = '../config.txt') -> dict[str: str|int]:
                            value=line.split('=')[1],
                            type=str,
                            line=current_line)
+            
+            # Bool
             if (line.startswith('PERFECT=')):
                 config = add_config(config=config,
                            key=line.split('=')[0],
@@ -80,13 +123,29 @@ def get_parsed_config(config_path: str = '../config.txt') -> dict[str: str|int]:
                            line=current_line)
 
     # Verifying if all mandatory configurations are present
-    print(config)
     mandatory_configurations = ['WIDTH', 'HEIGHT', 'ENTRY', 'EXIT', 'OUTPUT_FILE', 'ENTRY']
     for parameter in mandatory_configurations:
         if parameter not in config.keys():
             raise ParsingError(f'Missing {parameter} parameter in your configuration file')
+    
+    # Verify that the configuration Entry and Exit have both x and y coords
+    if len(config['ENTRY']) != 2:
+        raise ParsingError('Invalid Entry format. Please refer to: "ENTRY=x,y"')
+    if len(config['EXIT']) != 2:
+        raise ParsingError('Invalid Exit format. Please refer to: "EXIT=x,y"')
+    config['ENTRY'] = {'x': config['ENTRY'][0], 'y': config['ENTRY'][1]}
+    config['EXIT'] = {'x': config['EXIT'][0], 'y': config['EXIT'][1]}
 
-    return config
+    # Create and return the Config object
+    return Config(
+        width=config['WIDTH'],
+        height=config['HEIGHT'],
+        entry_coords=config['ENTRY'],
+        exit_coords=config['EXIT'],
+        output_file=config['OUTPUT_FILE'],
+        perfect=config['PERFECT']
+        )
 
 if __name__ == '__main__':
     conf = get_parsed_config('/home/gtourdia/Documents/42_a_maze_ing/config.txt')
+    print(conf)
