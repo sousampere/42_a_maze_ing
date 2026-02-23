@@ -5,8 +5,10 @@
 class CellException(Exception):
     pass
 
+
 class CellDirectionException(CellException):
     pass
+
 
 class Cell():
     """ Cell object that compose a Maze """
@@ -15,7 +17,7 @@ class Cell():
                  east: int = 0,
                  south: int = 0,
                  west: int = 0) -> None:
-        
+
         # Setting direction values
         if self.validate_direction(north):
             self._north = north
@@ -32,8 +34,9 @@ class Cell():
         """ Validate the value for a cell's direction (0 or 1) """
         if (direction == 0 or direction == 1):
             return True
-        raise CellDirectionException(f'Invalid direction {direction}. Must be 1 or 0.')
-    
+        raise CellDirectionException(f'Invalid direction {direction}. '
+                                     'Must be 1 or 0.')
+
     def get_direction(self, direction: str) -> int:
         """ Return the value of the given direction for the cell """
         available_directions = {
@@ -43,7 +46,9 @@ class Cell():
             'west': self._west
             }
         if (direction not in available_directions.keys()):
-            raise CellDirectionException(f'Invalid direction. Must be a direction in {available_directions.keys()}')
+            raise CellDirectionException(f'Invalid direction. '
+                                         'Must be a direction in '
+                                         f'{available_directions.keys()}')
         return available_directions[direction]
 
     def directions(self) -> dict[str: int]:
@@ -64,7 +69,9 @@ class Cell():
             'west': self._west
             }
         if (direction not in available_directions.keys()):
-            raise CellDirectionException(f'Invalid direction. Must be a direction in {available_directions.keys()}')
+            raise CellDirectionException(f'Invalid direction. '
+                                         'Must be a direction in '
+                                         f'{available_directions.keys()}')
         if (self.validate_direction(value)):
             if (direction == 'north'):
                 self._north = value
