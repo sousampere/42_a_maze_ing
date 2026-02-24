@@ -85,9 +85,9 @@ class Cell():
         return available_directions[direction]
 
     def get_hex_value(self) -> str:
-        int_value = int(f'{self._north}{self._east}'
-                        f'{self._south}{self._west}', base=2)
-        hex_value = hex(int_value)[2:]
+        int_value = int(f'{self._west}{self._south}'
+                        f'{self._east}{self._north}', base=2)
+        hex_value = hex(int_value)[2:].upper()
         return hex_value
 
     @staticmethod
