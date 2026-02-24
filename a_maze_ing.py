@@ -19,4 +19,5 @@ if __name__ == "__main__":
     maze.debug()
     maze.apply_forty_two()
     maze.visualize()
+    maze.fill_cells()
     main()
