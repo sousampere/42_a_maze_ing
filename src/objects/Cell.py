@@ -83,8 +83,14 @@ class Cell():
                 self._west = value
 
         return available_directions[direction]
-
+    
+    def get_hex_value(self) -> str:
+        int_value = int(f'{self._north}{self._east}{self._south}{self._west}', base=2)
+        hex_value = hex(int_value)[2:]
+        return hex_value
+    
     def debug(self) -> dict[str:int]:
+        """ Prints the data of the cell, for debug purposes """
         print('=== CELL DEBUG ===')
         print(f'|North: {self._north}')
         print(f'|East: {self._east}')
@@ -98,3 +104,4 @@ if __name__ == '__main__':
     ExampleCell = Cell(0, 0, 0, 0)
     ExampleCell.set_direction('east', 1)
     ExampleCell.debug()
+    print(ExampleCell.directions())
