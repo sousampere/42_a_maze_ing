@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 
 
+import random
 from turtle import width
 
 from src import Cell
@@ -18,6 +19,7 @@ class Maze():
         self._height = config.height
         self.cells = []
         self.setup_cells()
+        self.config = config
 
     def setup_cells(self):
         # Adding cell to the maze
@@ -160,3 +162,30 @@ class Maze():
             print(f"\033[0;36m{line_1}\033[00;0m")
             print(f"\033[0;36m{line_2}\033[00;0m")
             print(f"\033[0;36m{line_3}\033[00;0m")
+    
+    def is_protected_cell(self, x: int, y: int) -> bool:
+        """ Know if a particular cell is protected or not """
+        for cell in self.get_protected_cells():
+            if cell['x'] == x and cell['y'] == y:
+                return True
+        return False
+
+    def fill_cells(self):
+        choices = ['0', '1', '2', '3',
+                   '4', '5', '6', '7',
+                   '8', '9', 'A', 'B',
+                   'C', 'D', 'E', 'F']
+        random.seed(self.config.seed)
+
+        print('dwqdwq')
+        for y in range(self._height):
+            for x in range(self._width):
+                if not self.is_protected_cell(x=x, y=y):
+                    self.cells[y][x] = Cell.convert_hex_to_cell(random.choice(choices))
+        # for y in self.cells:
+        #     for x in y:
+        #         print('fewfew')
+        #         if not self.is_protected_cell(x=x, y=y):
+        #             self.cells[y][x] = Cell.convert_hex_to_cell(random.choice(choices))
+        #         x += 1
+        #     y += 1
