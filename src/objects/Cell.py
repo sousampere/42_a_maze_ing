@@ -83,7 +83,7 @@ class Cell():
                 self._west = value
 
         return available_directions[direction]
-    
+
     def debug(self) -> dict[str:int]:
         print('=== CELL DEBUG ===')
         print(f'|North: {self._north}')
@@ -92,6 +92,7 @@ class Cell():
         print(f'|West: {self._west}')
         print('==================')
         return self.directions()
+
 
 if __name__ == '__main__':
     ExampleCell = Cell(0, 0, 0, 0)
