@@ -48,10 +48,7 @@ sync:
 # ---------------- A VERIFIER -------------------
 
 run:
-	uv run python3.14 -m src --input $(DEFAULT_INPUT) --output $(DEFAULT_OUTPUT)
-
-run-verbose:
-	uv run python3.14 -m src --input $(DEFAULT_INPUT) --output $(DEFAULT_OUTPUT) --verbose=true
+	uv run python a_maze_ing.py --config_path config.txt
 
 flake8: sync
 	uv run python3.14 -m flake8 ./src

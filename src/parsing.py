@@ -7,8 +7,6 @@ from pydantic import BaseModel, Field, model_validator
 import random
 
 
-
-
 class ParsingError(Exception):
     """ Parsing Error """
     pass
