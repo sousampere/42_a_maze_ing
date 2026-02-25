@@ -37,28 +37,40 @@ class Maze():
          and unvisited. """
         neighbours_cells = []
         # East
-        if (x + 1 != self.config.width
-            and self.cells[y][x + 1].get_hex_value() == 'F'
-            and not self.is_protected_cell(x + 1, y)):
-            neighbours_cells.append({'x': x + 1, 'y': y, 'direction': 'east'})
+        try:
+            if (x + 1 != self.config.width
+                and self.cells[y][x + 1].get_hex_value() == 'F'
+                and not self.is_protected_cell(x + 1, y)):
+                neighbours_cells.append({'x': x + 1, 'y': y, 'direction': 'east'})
+        except Exception:
+            pass
 
         # West
-        if (x - 1 != -1 and
-            self.cells[y][x - 1].get_hex_value() == 'F'
-            and not self.is_protected_cell(x - 1, y)):
-            neighbours_cells.append({'x': x - 1, 'y': y, 'direction': 'west'})
+        try:
+            if (x - 1 != -1 and
+                self.cells[y][x - 1].get_hex_value() == 'F'
+                and not self.is_protected_cell(x - 1, y)):
+                neighbours_cells.append({'x': x - 1, 'y': y, 'direction': 'west'})
+        except Exception:
+            pass
 
         # South
-        if (y + 1 != self.config.height and
-            self.cells[y + 1][x].get_hex_value() == 'F'
-            and not self.is_protected_cell(x, y + 1)):
-            neighbours_cells.append({'x': x, 'y': y + 1, 'direction': 'south'})
+        try:
+            if (y + 1 != self.config.height and
+                self.cells[y + 1][x].get_hex_value() == 'F'
+                and not self.is_protected_cell(x, y + 1)):
+                neighbours_cells.append({'x': x, 'y': y + 1, 'direction': 'south'})
+        except Exception:
+            pass
 
         # North
-        if (y - 1 != -1 and
-            self.cells[y - 1][x].get_hex_value() == 'F'
-            and not self.is_protected_cell(x, y - 1)):
-            neighbours_cells.append({'x': x, 'y': y - 1, 'direction': 'north'})
+        try:
+            if (y - 1 != -1 and
+                self.cells[y - 1][x].get_hex_value() == 'F'
+                and not self.is_protected_cell(x, y - 1)):
+                neighbours_cells.append({'x': x, 'y': y - 1, 'direction': 'north'})
+        except Exception:
+            pass
 
         return neighbours_cells
 
@@ -73,6 +85,9 @@ class Maze():
         center_x = int(self._width / 2)
         center_y = int(self._height / 2)
         protected_cells = []
+
+        if (self.config.width < 9 or self.config.height < 7):
+            return protected_cells
 
         if (self._width % 2 == 0):
             center_x -= 1
@@ -180,17 +195,29 @@ class Maze():
     def break_wall(self, x: int, y: int, wall: str) -> None:
         match wall:
             case 'north':
-                self.cells[y][x].set_direction('north', 0)
-                self.cells[y - 1][x].set_direction('south', 0)
+                try:
+                    self.cells[y][x].set_direction('north', 0)
+                    self.cells[y - 1][x].set_direction('south', 0)
+                except Exception:
+                    pass
             case 'east':
-                self.cells[y][x].set_direction('east', 0)
-                self.cells[y][x + 1].set_direction('west', 0)
+                try:
+                    self.cells[y][x].set_direction('east', 0)
+                    self.cells[y][x + 1].set_direction('west', 0)
+                except Exception:
+                    pass
             case 'south':
-                self.cells[y][x].set_direction('south', 0)
-                self.cells[y + 1][x].set_direction('north', 0)
+                try:
+                    self.cells[y][x].set_direction('south', 0)
+                    self.cells[y + 1][x].set_direction('north', 0)
+                except Exception:
+                    pass
             case 'west':
-                self.cells[y][x].set_direction('west', 0)
-                self.cells[y][x - 1].set_direction('east', 0)
+                try:
+                    self.cells[y][x].set_direction('west', 0)
+                    self.cells[y][x - 1].set_direction('east', 0)
+                except Exception:
+                    pass
 
     def generate(self) -> str:
         x = self.config.entry_coords['x']
