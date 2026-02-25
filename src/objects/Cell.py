@@ -94,10 +94,10 @@ class Cell():
     def convert_hex_to_cell(hexa: str) -> "Cell":
         """ Creates a Cell with the corresponding hexa coordinates """
         integer = int(hexa, base=16)
-        binary = bin(integer)
-        while (len(binary) != 4):
+        binary = bin(integer)[2:]
+        while (len(binary) < 4):
             binary = '0' + binary
-        return Cell(binary[3], binary[2], binary[1], binary[0])
+        return Cell(int(binary[3]), int(binary[2]), int(binary[1]), int(binary[0]))
 
     def debug(self) -> dict[str:int]:
         """ Prints the data of the cell, for debug purposes """

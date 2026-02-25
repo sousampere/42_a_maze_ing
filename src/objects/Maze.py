@@ -2,7 +2,8 @@
 
 
 import random
-from turtle import width
+from traceback import print_tb
+from turtle import st
 
 from src import Cell
 from src.parsing import Config
@@ -26,45 +27,60 @@ class Maze():
         for y in range(self._height):
             current_line = []
             for x in range(self._width):
-                # Top left corner
-                if x == 0 and y == 0:
-                    current_line.append(Cell(north=1, west=1, south=0, east=0))
-                
-                # Top right corner
-                elif x == self._width - 1 and y == 0:
-                    current_line.append(Cell(north=1, west=0, south=0, east=1))
-
-                # Bottom left corner
-                elif x == 0 and y == self._height - 1:
-                    current_line.append(Cell(north=0, west=1, south=1, east=0))
-
-                # Bottom right corner
-                elif x == self._width - 1 and y == self._height - 1:
-                    current_line.append(Cell(north=0, west=0, south=1, east=1))
-
-                # Top
-                elif y == 0:
-                    current_line.append(Cell(north=1, west=0, south=0, east=0))
-
-                # Bottom
-                elif y == self._height - 1:
-                    current_line.append(Cell(north=0, west=0, south=1, east=0))
-
-                # Left
-                elif x == 0:
-                    current_line.append(Cell(north=0, west=1, south=0, east=0))
-
-                # Right
-                elif x == self._width - 1:
-                    current_line.append(Cell(north=0, west=0, south=0, east=1))
-
-                # Default (void)
-                else:
-                    current_line.append(Cell(0, 0, 0, 0))
+                current_line.append(Cell(1, 1, 1, 1))
                 x += 1
             self.cells.append(current_line)
             y += 1
+    
+    def get_neighbours_cells(self, x: int, y: int) -> list[dict[str, int|str]]:
+        """ Return the cells around the given coords, that are breakable
+         and unvisited. """
+        neighbours_cells = []
+        # East
+        if (x + 1 != self.config.width
+            and self.cells[y][x + 1].get_hex_value() == 'F'
+            and not self.is_protected_cell(x + 1, y)):
+            neighbours_cells.append({'x': x + 1, 'y': y, 'direction': 'east'})
+        else:
+            try:
+                print(f'x={x+1} et y={y}, conf={self.config.width}, hex={self.cells[y][x + 1].get_hex_value()}, prot={self.is_protected_cell(x + 1, y)}')
+            except:
+                pass
 
+        # West
+        if (x - 1 != -1 and
+            self.cells[y][x - 1].get_hex_value() == 'F'
+            and not self.is_protected_cell(x - 1, y)):
+            neighbours_cells.append({'x': x - 1, 'y': y, 'direction': 'west'})
+        else:
+            try:
+                print(f'x={x-1} et y={y}, conf={self.config.width}, hex={self.cells[y][x - 1].get_hex_value()}, prot={self.is_protected_cell(x - 1, y)}')
+            except:
+                pass
+
+        # South
+        if (y + 1 != self.config.height and
+            self.cells[y + 1][x].get_hex_value() == 'F'
+            and not self.is_protected_cell(x, y + 1)):
+            neighbours_cells.append({'x': x, 'y': y + 1, 'direction': 'south'})
+        else:
+            try:
+                print(f'x={x} et y={y+1}, conf={self.config.width}, hex={self.cells[y+1][x].get_hex_value()}, prot={self.is_protected_cell(x, y+1)}')
+            except:
+                pass
+
+        # North
+        if (y - 1 != -1 and
+            self.cells[y - 1][x].get_hex_value() == 'F'
+            and not self.is_protected_cell(x, y - 1)):
+            neighbours_cells.append({'x': x, 'y': y - 1, 'direction': 'north'})
+        else:
+            try:
+                print(f'x={x} et y={y-1}, conf={self.config.width}, hex={self.cells[y-1][x].get_hex_value()}, prot={self.is_protected_cell(x, y-1)}')
+            except:
+                pass
+
+        return neighbours_cells
 
     def apply_forty_two(self) -> None:
         """ Add the 42 logo in the center """
@@ -155,7 +171,6 @@ class Maze():
                         l_1, l_2, l_3 = "▏    ▕", "▏    ▕", "🭼▁▁▁▁🭿"
                     case "F":
                         l_1, l_2, l_3 = "🭽▔▔▔▔🭾", "▏ 🟧 ▕", "🭼▁▁▁▁🭿"
-
                 line_1 += l_1
                 line_2 += l_2
                 line_3 += l_3
@@ -174,18 +189,63 @@ class Maze():
         choices = ['0', '1', '2', '3',
                    '4', '5', '6', '7',
                    '8', '9', 'A', 'B',
-                   'C', 'D', 'E', 'F']
+                   'C', 'D', 'E',]
         random.seed(self.config.seed)
 
-        print('dwqdwq')
         for y in range(self._height):
             for x in range(self._width):
                 if not self.is_protected_cell(x=x, y=y):
                     self.cells[y][x] = Cell.convert_hex_to_cell(random.choice(choices))
-        # for y in self.cells:
-        #     for x in y:
-        #         print('fewfew')
-        #         if not self.is_protected_cell(x=x, y=y):
-        #             self.cells[y][x] = Cell.convert_hex_to_cell(random.choice(choices))
-        #         x += 1
-        #     y += 1
+    
+    def break_wall(self, x: int, y: int, wall: str) -> None:
+        print(f'break at {x} {y} {wall}')
+        match wall:
+            case 'north':
+                self.cells[y][x].set_direction('north', 0)
+                self.cells[y - 1][x].set_direction('south', 0)
+            case 'east':
+                self.cells[y][x].set_direction('east', 0)
+                self.cells[y][x + 1].set_direction('west', 0)
+            case 'south':
+                self.cells[y][x].set_direction('south', 0)
+                self.cells[y + 1][x].set_direction('north', 0)
+            case 'west':
+                self.cells[y][x].set_direction('west', 0)
+                self.cells[y][x - 1].set_direction('east', 0)
+
+    def generate(self) -> None:
+        x = self.config.entry_coords['x']
+        y = self.config.entry_coords['y']
+        origin_x = x
+        origin_y = y
+
+        available_cells = self.get_neighbours_cells(x, y)
+        random_cell = random.choice(available_cells)
+        self.break_wall(x, y, random_cell['direction'])
+        x = random_cell['x']
+        y = random_cell['y']
+        stack = []
+
+        # print(x, y)
+        # print(origin_x, origin_y)
+        # self.debug()
+        stack.append({'x': x, 'y': y})
+
+        while ([origin_x, origin_y] != [x, y] and len(stack) != 0):
+            # While there are cells to visit
+            # print('Cells', self.get_neighbours_cells(x, y))
+            x = stack[-1]['x']
+            y = stack[-1]['y']
+            stack.pop()
+            while (len(self.get_neighbours_cells(x, y)) != 0):
+                stack.append({'x': x, 'y': y})
+                available_cells = self.get_neighbours_cells(x, y)
+                random_cell = random.choice(available_cells)
+                self.break_wall(x, y, random_cell['direction'])
+                x = random_cell['x']
+                y = random_cell['y']
+                stack.append({'x': x, 'y': y})
+                self.visualize()
+                # print(stack)
+                import time
+                # time.sleep(0.05)

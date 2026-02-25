@@ -16,8 +16,12 @@ if __name__ == "__main__":
 
     config = get_parsed_config(args['config'])
     maze = Maze(config)
-    maze.debug()
+    # maze.debug()
+    debug(maze)
     maze.apply_forty_two()
+    # maze.fill_cells()
+    # maze.break_wall(0, 0, 'east')
+    maze.generate()
+
     maze.visualize()
-    maze.fill_cells()
     main()
