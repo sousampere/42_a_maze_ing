@@ -35,27 +35,35 @@ class Config(BaseModel):
 
         # Verify that the Entry/Exit is inside the Maze
         if self.entry_coords['x'] < 0 or self.entry_coords['y'] < 0:
-            raise ConfigError(f'Invalid entry coords: {self.entry_coords}. Please use at least a 2x2 Maze.')
+            raise ConfigError(f'Invalid entry coords: {self.entry_coords}. '
+                              f'Please use at least a 2x2 Maze.')
         if self.exit_coords['x'] < 0 or self.exit_coords['y'] < 0:
-            raise ConfigError(f'Invalid exit coords: {self.exit_coords}. Please use at least a 2x2 Maze.')
-        if self.exit_coords['x'] > self.width or self.exit_coords['y'] > self.height:
-            raise ConfigError(f'Invalid exit coords: {self.exit_coords}. Outside the maze\'s range.')
-        if self.entry_coords['x'] > self.width or self.entry_coords['y'] > self.height:
-            raise ConfigError(f'Invalid exit coords: {self.exit_coords}. Outside the maze\'s range.')
+            raise ConfigError(f'Invalid exit coords: {self.exit_coords}. '
+                              f'Please use at least a 2x2 Maze.')
+        if self.exit_coords['x'] > self.width or self.exit_coords['y'] > \
+                self.height:
+            raise ConfigError(f'Invalid exit coords: {self.exit_coords}. '
+                              f'Outside the maze\'s range.')
+        if self.entry_coords['x'] > self.width or self.entry_coords['y'] > \
+                self.height:
+            raise ConfigError(f'Invalid exit coords: {self.exit_coords}. '
+                              f'Outside the maze\'s range.')
 
         # Initialize seed
         random.seed(self.seed)
         return self
 
 
-def add_config(config: dict[str: any], key: str, value: str, type: object, line: int) -> dict[str: any]:
+def add_config(config: dict[str: any], key: str, value: str, type: object,
+               line: int) -> dict[str: any]:
     """ Adding configuration line to the config dictionnary """
     # Integer
     if type is int:
         try:
             config[key] = int(value)
         except Exception:
-            raise ParsingError(f'Could not parse config at line {line}: invalid int "{value}".')
+            raise ParsingError(f'Could not parse config at line {line}: '
+                               f'invalid int "{value}".')
 
     # String
     if type is str:
@@ -69,8 +77,9 @@ def add_config(config: dict[str: any], key: str, value: str, type: object, line:
                 coords.append(int(coord))
             config[key] = tuple(coords)
         except Exception:
-            raise ParsingError(f'Could not parse config at line {line}: invalid coordinates "{value}".')
-        
+            raise ParsingError(f'Could not parse config at line {line}: '
+                               f'invalid coordinates "{value}".')
+
     # Boolean
     if type is bool:
         if (value.lower().strip() == 'true'):
@@ -78,13 +87,16 @@ def add_config(config: dict[str: any], key: str, value: str, type: object, line:
         elif (value.lower().strip() == 'false'):
             config[key] = False
         else:
-            raise ParsingError(f'Could not parse config at line {line}: invalid boolean "{value}".')
+            raise ParsingError(f'Could not parse config at line {line}: '
+                               f'invalid boolean "{value}".')
 
     # Return the new config dictionnary, containing the parsed line
     return config
 
+
 def get_parsed_config(config_path: str = '../config.txt') -> Config:
-    """ Returns parsed the configuration (Config Object) from a given config_file path. """
+    """ Returns parsed the configuration (Config Object) from a given
+    config_file path. """
     with open(config_path, 'r') as f:
 
         # Ignore comments
@@ -100,48 +112,51 @@ def get_parsed_config(config_path: str = '../config.txt') -> Config:
 
             # Integer
             if (line.startswith('WIDTH=')
-                or line.startswith('HEIGHT=')):
+                    or line.startswith('HEIGHT=')):
                 config = add_config(config=config,
-                           key=line.split('=')[0],
-                           value=line.split('=')[1],
-                           type=int,
-                           line=current_line)
-                
+                                    key=line.split('=')[0],
+                                    value=line.split('=')[1],
+                                    type=int,
+                                    line=current_line)
+
             # Tuple / Coordinate
             if (line.startswith('ENTRY=')
-                or line.startswith('EXIT=')):
+                    or line.startswith('EXIT=')):
                 config = add_config(config=config,
-                           key=line.split('=')[0],
-                           value=line.split('=')[1],
-                           type=tuple,
-                           line=current_line)
-                
+                                    key=line.split('=')[0],
+                                    value=line.split('=')[1],
+                                    type=tuple,
+                                    line=current_line)
+
             # String
             if (line.startswith('OUTPUT_FILE=')
-                or line.startswith('SEED=')):
+                    or line.startswith('SEED=')):
                 config = add_config(config=config,
-                           key=line.split('=')[0],
-                           value=line.split('=')[1],
-                           type=str,
-                           line=current_line)
-            
+                                    key=line.split('=')[0],
+                                    value=line.split('=')[1],
+                                    type=str,
+                                    line=current_line)
+
             # Bool
             if (line.startswith('PERFECT=')):
                 config = add_config(config=config,
-                           key=line.split('=')[0],
-                           value=line.split('=')[1],
-                           type=bool,
-                           line=current_line)
+                                    key=line.split('=')[0],
+                                    value=line.split('=')[1],
+                                    type=bool,
+                                    line=current_line)
 
     # Verifying if all mandatory configurations are present
-    mandatory_configurations = ['WIDTH', 'HEIGHT', 'ENTRY', 'EXIT', 'OUTPUT_FILE', 'ENTRY']
+    mandatory_configurations = ['WIDTH', 'HEIGHT', 'ENTRY', 'EXIT',
+                                'OUTPUT_FILE', 'ENTRY']
     for parameter in mandatory_configurations:
         if parameter not in config.keys():
-            raise ParsingError(f'Missing {parameter} parameter in your configuration file')
-    
+            raise ParsingError(f'Missing {parameter} parameter in your'
+                               'configuration file')
+
     # Verify that the configuration Entry and Exit have both x and y coords
     if len(config['ENTRY']) != 2:
-        raise ParsingError('Invalid Entry format. Please refer to: "ENTRY=x,y"')
+        raise ParsingError('Invalid Entry format. '
+                           'Please refer to: "ENTRY=x,y"')
     if len(config['EXIT']) != 2:
         raise ParsingError('Invalid Exit format. Please refer to: "EXIT=x,y"')
     config['ENTRY'] = {'x': config['ENTRY'][0], 'y': config['ENTRY'][1]}
@@ -149,7 +164,8 @@ def get_parsed_config(config_path: str = '../config.txt') -> Config:
 
     # Use random seed if the seed is not specified
     if 'SEED' not in config.keys():
-        seed = ''.join(random.choices(string.ascii_lowercase + string.digits, k=5))
+        seed = ''.join(random.choices(string.ascii_lowercase +
+                                      string.digits, k=5))
         config['SEED'] = seed
 
     # Create and return the Config object
@@ -163,7 +179,9 @@ def get_parsed_config(config_path: str = '../config.txt') -> Config:
         seed=config['SEED']
         )
 
+
 if __name__ == '__main__':
-    conf = get_parsed_config('/home/gtourdia/Documents/42_a_maze_ing/config.txt')
+    conf = get_parsed_config('/home/gtourdia/Documents/'
+                             '42_a_maze_ing/config.txt')
     print(conf)
     print(random.random())

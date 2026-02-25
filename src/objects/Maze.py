@@ -2,8 +2,6 @@
 
 
 import random
-from traceback import print_tb
-from turtle import st
 
 from src import Cell
 from src.parsing import Config
@@ -31,8 +29,9 @@ class Maze():
                 x += 1
             self.cells.append(current_line)
             y += 1
-    
-    def get_neighbours_cells(self, x: int, y: int) -> list[dict[str, int|str]]:
+
+    def get_neighbours_cells(self, x: int, y: int) ->\
+            list[dict[str, int | str]]:
         """ Return the cells around the given coords, that are breakable
          and unvisited. """
         neighbours_cells = []
@@ -40,8 +39,9 @@ class Maze():
         try:
             if (x + 1 != self.config.width
                 and self.cells[y][x + 1].get_hex_value() == 'F'
-                and not self.is_protected_cell(x + 1, y)):
-                neighbours_cells.append({'x': x + 1, 'y': y, 'direction': 'east'})
+                    and not self.is_protected_cell(x + 1, y)):
+                neighbours_cells.append({'x': x + 1, 'y': y,
+                                         'direction': 'east'})
         except Exception:
             pass
 
@@ -49,8 +49,9 @@ class Maze():
         try:
             if (x - 1 != -1 and
                 self.cells[y][x - 1].get_hex_value() == 'F'
-                and not self.is_protected_cell(x - 1, y)):
-                neighbours_cells.append({'x': x - 1, 'y': y, 'direction': 'west'})
+                    and not self.is_protected_cell(x - 1, y)):
+                neighbours_cells.append({'x': x - 1, 'y': y,
+                                         'direction': 'west'})
         except Exception:
             pass
 
@@ -58,8 +59,9 @@ class Maze():
         try:
             if (y + 1 != self.config.height and
                 self.cells[y + 1][x].get_hex_value() == 'F'
-                and not self.is_protected_cell(x, y + 1)):
-                neighbours_cells.append({'x': x, 'y': y + 1, 'direction': 'south'})
+                    and not self.is_protected_cell(x, y + 1)):
+                neighbours_cells.append({'x': x, 'y': y + 1,
+                                         'direction': 'south'})
         except Exception:
             pass
 
@@ -67,8 +69,9 @@ class Maze():
         try:
             if (y - 1 != -1 and
                 self.cells[y - 1][x].get_hex_value() == 'F'
-                and not self.is_protected_cell(x, y - 1)):
-                neighbours_cells.append({'x': x, 'y': y - 1, 'direction': 'north'})
+                    and not self.is_protected_cell(x, y - 1)):
+                neighbours_cells.append({'x': x, 'y': y - 1,
+                                         'direction': 'north'})
         except Exception:
             pass
 
@@ -78,7 +81,7 @@ class Maze():
         """ Add the 42 logo in the center """
         if (self._width >= 9 and self._height >= 6):
             for cell in self.get_protected_cells():
-                self.cells[cell['y']][cell['x']] = Cell(1,1,1,1)
+                self.cells[cell['y']][cell['x']] = Cell(1, 1, 1, 1)
 
     def get_protected_cells(self) -> list[dict[str, int]]:
         """ Return the cells of the 42 logo """
@@ -114,7 +117,7 @@ class Maze():
         protected_cells.append({'x': center_x + 1, 'y': center_y - 2})
         protected_cells.append({'x': center_x + 2, 'y': center_y - 2})
         protected_cells.append({'x': center_x + 1, 'y': center_y + 1})
-        protected_cells.append({'x': center_x + 1, 'y': center_y + 2 })
+        protected_cells.append({'x': center_x + 1, 'y': center_y + 2})
         protected_cells.append({'x': center_x + 2, 'y': center_y + 2})
         protected_cells.append({'x': center_x + 3, 'y': center_y + 2})
 
@@ -165,14 +168,17 @@ class Maze():
                     case "E":
                         l_1, l_2, l_3 = "▏    ▕", "▏    ▕", "🭼▁▁▁▁🭿"
                     case "F":
-                        l_1, l_2, l_3 = "🭽▔▔▔▔🭾", "▏ 🟧 ▕", "🭼▁▁▁▁🭿"
+                        # l_1, l_2, l_3 = "🭽▔▔▔▔🭾", "▏ 🟧 ▕", "🭼▁▁▁▁🭿"
+                        l_1, l_2, l_3 = "\033[0;33m██████\033[0;36m", \
+                            "\033[0;33m██████\033[0;36m", \
+                            "\033[0;33m██████\033[0;36m"
                 line_1 += l_1
                 line_2 += l_2
                 line_3 += l_3
-            print(f"\033[0;36m{line_1}\033[00;0m")
-            print(f"\033[0;36m{line_2}\033[00;0m")
-            print(f"\033[0;36m{line_3}\033[00;0m")
-    
+            print(f"\033[0;36m{line_1}\033[0;0m")
+            print(f"\033[0;36m{line_2}\033[0;0m")
+            print(f"\033[0;36m{line_3}\033[0;0m")
+
     def is_protected_cell(self, x: int, y: int) -> bool:
         """ Know if a particular cell is protected or not """
         for cell in self.get_protected_cells():
@@ -190,8 +196,9 @@ class Maze():
         for y in range(self._height):
             for x in range(self._width):
                 if not self.is_protected_cell(x=x, y=y):
-                    self.cells[y][x] = Cell.convert_hex_to_cell(random.choice(choices))
-    
+                    self.cells[y][x] = \
+                        Cell.convert_hex_to_cell(random.choice(choices))
+
     def break_wall(self, x: int, y: int, wall: str) -> None:
         match wall:
             case 'north':

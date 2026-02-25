@@ -10,6 +10,7 @@ def printerr(*args: Any) -> None:
     sys.stderr.write(str(*args))
     sys.stderr.write(f'{Colors.END}\n')
 
+
 def debug(*args: Any) -> None:
     """Prints a blue message"""
     sys.stderr.write(f"{Colors.BLUE}")

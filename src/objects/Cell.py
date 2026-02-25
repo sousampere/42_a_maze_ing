@@ -97,7 +97,8 @@ class Cell():
         binary = bin(integer)[2:]
         while (len(binary) < 4):
             binary = '0' + binary
-        return Cell(int(binary[3]), int(binary[2]), int(binary[1]), int(binary[0]))
+        return Cell(int(binary[3]), int(binary[2]), int(binary[1]),
+                    int(binary[0]))
 
     def debug(self) -> dict[str:int]:
         """ Prints the data of the cell, for debug purposes """
