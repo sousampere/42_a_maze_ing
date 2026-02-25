@@ -178,7 +178,6 @@ class Maze():
                     self.cells[y][x] = Cell.convert_hex_to_cell(random.choice(choices))
     
     def break_wall(self, x: int, y: int, wall: str) -> None:
-        print(f'break at {x} {y} {wall}')
         match wall:
             case 'north':
                 self.cells[y][x].set_direction('north', 0)
