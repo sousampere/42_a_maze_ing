@@ -41,44 +41,24 @@ class Maze():
             and self.cells[y][x + 1].get_hex_value() == 'F'
             and not self.is_protected_cell(x + 1, y)):
             neighbours_cells.append({'x': x + 1, 'y': y, 'direction': 'east'})
-        else:
-            try:
-                print(f'x={x+1} et y={y}, conf={self.config.width}, hex={self.cells[y][x + 1].get_hex_value()}, prot={self.is_protected_cell(x + 1, y)}')
-            except:
-                pass
 
         # West
         if (x - 1 != -1 and
             self.cells[y][x - 1].get_hex_value() == 'F'
             and not self.is_protected_cell(x - 1, y)):
             neighbours_cells.append({'x': x - 1, 'y': y, 'direction': 'west'})
-        else:
-            try:
-                print(f'x={x-1} et y={y}, conf={self.config.width}, hex={self.cells[y][x - 1].get_hex_value()}, prot={self.is_protected_cell(x - 1, y)}')
-            except:
-                pass
 
         # South
         if (y + 1 != self.config.height and
             self.cells[y + 1][x].get_hex_value() == 'F'
             and not self.is_protected_cell(x, y + 1)):
             neighbours_cells.append({'x': x, 'y': y + 1, 'direction': 'south'})
-        else:
-            try:
-                print(f'x={x} et y={y+1}, conf={self.config.width}, hex={self.cells[y+1][x].get_hex_value()}, prot={self.is_protected_cell(x, y+1)}')
-            except:
-                pass
 
         # North
         if (y - 1 != -1 and
             self.cells[y - 1][x].get_hex_value() == 'F'
             and not self.is_protected_cell(x, y - 1)):
             neighbours_cells.append({'x': x, 'y': y - 1, 'direction': 'north'})
-        else:
-            try:
-                print(f'x={x} et y={y-1}, conf={self.config.width}, hex={self.cells[y-1][x].get_hex_value()}, prot={self.is_protected_cell(x, y-1)}')
-            except:
-                pass
 
         return neighbours_cells
 
@@ -213,7 +193,7 @@ class Maze():
                 self.cells[y][x].set_direction('west', 0)
                 self.cells[y][x - 1].set_direction('east', 0)
 
-    def generate(self) -> None:
+    def generate(self) -> str:
         x = self.config.entry_coords['x']
         y = self.config.entry_coords['y']
         origin_x = x
@@ -245,7 +225,3 @@ class Maze():
                 x = random_cell['x']
                 y = random_cell['y']
                 stack.append({'x': x, 'y': y})
-                self.visualize()
-                # print(stack)
-                import time
-                # time.sleep(0.05)
