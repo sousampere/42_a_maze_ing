@@ -28,6 +28,7 @@ class Config(BaseModel):
     perfect: bool
     seed: str
     display_ft_pattern: bool
+    default_color: str
 
     @model_validator(mode='after')
     def validation(self) -> "Config":
@@ -50,6 +51,13 @@ class Config(BaseModel):
                 self.height:
             raise ConfigError(f'Invalid exit coords: {self.exit_coords}. '
                               f'Outside the maze\'s range.')
+        if self.entry_coords['x'] == self.exit_coords['x']\
+           and self.entry_coords['y'] == self.exit_coords['y']:
+            raise ConfigError('Invalid entry and exit coords: '
+                              'cannot be the same')
+        if self.default_color not in ['red', 'orange', 'yellow', 'pink',
+                                      'purple', 'blue', 'cyan', 'random']:
+            raise ConfigError('Invalid color in your configuration file.')
 
         # Initialize seed
         random.seed(self.seed)
@@ -132,7 +140,8 @@ def get_parsed_config(config_path: str = '../config.txt') -> Config:
 
             # String
             if (line.startswith('OUTPUT_FILE=')
-                    or line.startswith('SEED=')):
+                    or line.startswith('SEED=')
+                    or line.startswith('DEFAULT_COLOR=')):
                 config = add_config(config=config,
                                     key=line.split('=')[0],
                                     value=line.split('=')[1],
@@ -173,6 +182,8 @@ def get_parsed_config(config_path: str = '../config.txt') -> Config:
 
     if 'DISPLAY_FT_PATTERN' not in config.keys():
         config['DISPLAY_FT_PATTERN'] = True
+    if 'DEFAULT_COLOR' not in config.keys():
+        config['DEFAULT_COLOR'] = True
 
     # Create and return the Config object
     return Config(
@@ -183,7 +194,8 @@ def get_parsed_config(config_path: str = '../config.txt') -> Config:
         output_file=config['OUTPUT_FILE'],
         perfect=config['PERFECT'],
         seed=config['SEED'],
-        display_ft_pattern=config['DISPLAY_FT_PATTERN']
+        display_ft_pattern=config['DISPLAY_FT_PATTERN'],
+        default_color=config['DEFAULT_COLOR']
         )
 
 

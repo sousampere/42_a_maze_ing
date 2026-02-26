@@ -329,3 +329,4 @@ class Maze():
             f.write('THIS IS NOT OVER ! PLEASE COMPLETE ME, '
                     'PLEASE, PLEAAAAAASE L4UR3NTG45P4RD')
         return None
+
