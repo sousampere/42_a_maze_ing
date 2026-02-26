@@ -345,3 +345,18 @@ class Maze():
                 x = random_cell['x']
                 y = random_cell['y']
                 stack.append({'x': x, 'y': y})
+
+    def output_maze(self, output_file: str):
+        """ Output the maze in a hexadecimal representation """
+        with open(output_file, 'w') as f:
+            for line in self.cells:
+                for cell in line:
+                    f.write(cell.get_hex_value())
+                f.write('\n')
+            f.write('\n')
+            f.write(f'{self.config.entry_coords['x']},{self.config.entry_coords['y']}')
+            f.write('\n')
+            f.write(f'{self.config.exit_coords['x']},{self.config.exit_coords['y']}')
+            f.write('\n')
+            f.write('THIS IS NOT OVER ! PLEASE COMPLETE ME, PLEASE, PLEAAAAAASE L4UR3NTG45P4RD')
+

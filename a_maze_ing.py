@@ -24,4 +24,6 @@ if __name__ == "__main__":
     maze.generate()
 
     maze.visualize()
+    maze.output_maze('output_maze.txt')
+    import sys
     main()
