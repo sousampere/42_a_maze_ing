@@ -2,6 +2,9 @@
 
 
 import random
+import time
+import sys
+from pynput import keyboard
 
 from src import Cell
 from src.parsing import Config
@@ -16,6 +19,9 @@ class Maze():
         self.cells: list[list[Cell]] = []
         self.setup_cells()
         self.config = config
+        self.speed = 0.1
+        self.listener = keyboard.Listener(on_press=self._on_press)
+        self.listener.start()
 
     def setup_cells(self) -> None:
         # Adding cell to the maze
@@ -151,7 +157,25 @@ class Maze():
             print('')
         return None
 
-    def visualize(self) -> None:
+    def _on_press(self, key):
+        try:
+            if key.char == "+":
+                self.speed = max(0.03, self.speed - 0.01)
+            elif key.char == "-":
+                self.speed = min(2.0, self.speed + 0.05)
+            elif key.char == "c":
+                pass
+        except AttributeError:
+            pass
+
+    def stop_listener(self):
+        self.listener.stop()
+
+    def visualize(self):
+        print(self.speed)
+        time.sleep(self.speed)
+        print("\033[H\033[J", end="")
+        buffer = ""
         for line in self.cells:
             line_1 = ""
             line_2 = ""
@@ -191,16 +215,20 @@ class Maze():
                         l_1, l_2, l_3 = "▏    ▕", "▏    ▕", "🭼▁▁▁▁🭿"
                     case "F":
                         # l_1, l_2, l_3 = "🭽▔▔▔▔🭾", "▏ 🟧 ▕", "🭼▁▁▁▁🭿"
-                        l_1, l_2, l_3 = "\033[0;33m██████\033[0;36m", \
-                            "\033[0;33m██████\033[0;36m", \
-                            "\033[0;33m██████\033[0;36m"
+                        l_1, l_2, l_3 = "\033[0;36m██████\033[0;36m", \
+                            "\033[0;36m██████\033[0;36m", \
+                            "\033[0;36m██████\033[0;36m"
                 line_1 += l_1
                 line_2 += l_2
                 line_3 += l_3
-            print(f"\033[0;36m{line_1}\033[0;0m")
-            print(f"\033[0;36m{line_2}\033[0;0m")
-            print(f"\033[0;36m{line_3}\033[0;0m")
-        return None
+            buffer += line_1 + "\n"
+            buffer += line_2 + "\n"
+            buffer += line_3 + "\n"
+            # print(f"\033[0;36m{line_1}\033[0;0m")
+            # print(f"\033[0;36m{line_2}\033[0;0m")
+        print(f"\033[0;36m{buffer}\033[0;0m")
+        from termios import TCIFLUSH, tcflush
+        tcflush(sys.stdin.fileno(), TCIFLUSH)
 
     def is_protected_cell(self, x: int, y: int) -> bool:
         """ Know if a particular cell is protected or not """

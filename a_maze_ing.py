@@ -22,8 +22,9 @@ if __name__ == "__main__":
     # maze.fill_cells()
     # maze.break_wall(0, 0, 'east')
     maze.generate()
+    maze.stop_listener()
 
-    maze.visualize()
+    # maze.visualize()
     maze.output_maze('output_maze.txt')
     print(maze.config)
     main()
