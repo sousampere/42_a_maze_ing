@@ -26,6 +26,7 @@ class Config(BaseModel):
     output_file: str
     perfect: bool
     seed: str
+    display_ft_pattern: bool
 
     @model_validator(mode='after')
     def validate(self) -> "Config":
@@ -138,7 +139,8 @@ def get_parsed_config(config_path: str = '../config.txt') -> Config:
                                     line=current_line)
 
             # Bool
-            if (line.startswith('PERFECT=')):
+            if (line.startswith('PERFECT=')
+                or line.startswith('DISPLAY_FT_PATTERN=')):
                 config = add_config(config=config,
                                     key=line.split('=')[0],
                                     value=line.split('=')[1],
@@ -168,6 +170,9 @@ def get_parsed_config(config_path: str = '../config.txt') -> Config:
                                       string.digits, k=5))
         config['SEED'] = seed
 
+    if 'DISPLAY_FT_PATTERN' not in config.keys():
+        config['DISPLAY_FT_PATTERN'] = True
+
     # Create and return the Config object
     return Config(
         width=config['WIDTH'],
@@ -176,7 +181,8 @@ def get_parsed_config(config_path: str = '../config.txt') -> Config:
         exit_coords=config['EXIT'],
         output_file=config['OUTPUT_FILE'],
         perfect=config['PERFECT'],
-        seed=config['SEED']
+        seed=config['SEED'],
+        display_ft_pattern=config['DISPLAY_FT_PATTERN']
         )
 
 

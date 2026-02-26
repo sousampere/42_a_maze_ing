@@ -25,5 +25,6 @@ if __name__ == "__main__":
 
     maze.visualize()
     maze.output_maze('output_maze.txt')
+    print(maze.config)
     import sys
     main()

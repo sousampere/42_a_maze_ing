@@ -82,74 +82,10 @@ class Maze():
         return neighbours_cells
 
 
-    def get_old_protected_cells(self) -> list[dict[str, int]]:
-        """ Return the cells of the 42 logo """
-        center_x = int(self._width / 2)
-        center_y = int(self._height / 2)
-        protected_cells = []
-
-        allow_return = False
-
-        
-        while (not allow_return):
-
-            print('checking...')
-            if (self.config.width < 9 or self.config.height < 7):
-                return protected_cells
-
-            if (self._width % 2 == 0):
-                center_x -= 1
-
-            if (center_y + 4 >= self.config.height):
-                return []
-            if (center_x + 5 >= self.config.width):
-                return []
-
-            # Number 4
-            protected_cells.append({'x': center_x - 1, 'y': center_y})
-            protected_cells.append({'x': center_x - 2, 'y': center_y})
-            protected_cells.append({'x': center_x - 3, 'y': center_y})
-            protected_cells.append({'x': center_x - 3, 'y': center_y - 1})
-            protected_cells.append({'x': center_x - 3, 'y': center_y - 2})
-            protected_cells.append({'x': center_x - 1, 'y': center_y})
-            protected_cells.append({'x': center_x - 1, 'y': center_y + 1})
-            protected_cells.append({'x': center_x - 1, 'y': center_y + 2})
-
-            if (self._width % 2 == 0):
-                center_x += 1
-
-            # Number 2
-            protected_cells.append({'x': center_x + 1, 'y': center_y})
-            protected_cells.append({'x': center_x + 2, 'y': center_y})
-            protected_cells.append({'x': center_x + 3, 'y': center_y})
-            protected_cells.append({'x': center_x + 3, 'y': center_y - 1})
-            protected_cells.append({'x': center_x + 3, 'y': center_y - 2})
-            protected_cells.append({'x': center_x + 1, 'y': center_y - 2})
-            protected_cells.append({'x': center_x + 2, 'y': center_y - 2})
-            protected_cells.append({'x': center_x + 1, 'y': center_y + 1})
-            protected_cells.append({'x': center_x + 1, 'y': center_y + 2})
-            protected_cells.append({'x': center_x + 2, 'y': center_y + 2})
-            protected_cells.append({'x': center_x + 3, 'y': center_y + 2})
-
-            # Check if entry or exit cells are on the 42 logo
-            for cell in protected_cells:
-                # time.sleep(0.5)
-                if self.config.entry_coords == cell or self.config.exit_coords == cell:
-                    allow_return = False
-                    print(self.config.entry_coords, self.config.exit_coords, cell)
-                    center_x += 1
-                    protected_cells = []
-                    break
-                else:
-                    allow_return = True
-
-            if (allow_return):
-                break
-            
-        return protected_cells
-
     def get_protected_cells(self, x: int = -1, y: int = -1) -> list[dict[str, int]]:
         """ Return the cells coords of the 42 logo """
+        if (not self.config.display_ft_pattern):
+            return []
         display_type = 'auto'
         if x == -1 and y == -1:
             x = int(self._width / 2)
