@@ -1,5 +1,5 @@
 # Dimensions
-WIDTH=-10
+WIDTH=10
 HEIGHT=10
 
 # Entry/Exit coords
