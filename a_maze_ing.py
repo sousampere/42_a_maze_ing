@@ -18,7 +18,7 @@ if __name__ == "__main__":
     maze = Maze(config)
     # maze.debug()
     debug(maze)
-    maze.apply_forty_two()
+    # maze.apply_forty_two()
     # maze.fill_cells()
     # maze.break_wall(0, 0, 'east')
     maze.generate()

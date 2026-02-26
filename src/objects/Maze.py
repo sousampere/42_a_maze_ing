@@ -1,7 +1,11 @@
 #!/usr/bin/python3
 
 
+from logging import config
 import random
+from sre_compile import dis
+
+from mypy.typeops import F
 
 from src import Cell
 from src.parsing import Config
@@ -77,49 +81,132 @@ class Maze():
 
         return neighbours_cells
 
-    def apply_forty_two(self) -> None:
-        """ Add the 42 logo in the center """
-        if (self._width >= 9 and self._height >= 6):
-            for cell in self.get_protected_cells():
-                self.cells[cell['y']][cell['x']] = Cell(1, 1, 1, 1)
 
-    def get_protected_cells(self) -> list[dict[str, int]]:
+    def get_old_protected_cells(self) -> list[dict[str, int]]:
         """ Return the cells of the 42 logo """
         center_x = int(self._width / 2)
         center_y = int(self._height / 2)
         protected_cells = []
 
-        if (self.config.width < 9 or self.config.height < 7):
-            return protected_cells
+        allow_return = False
 
-        if (self._width % 2 == 0):
-            center_x -= 1
+        
+        while (not allow_return):
+
+            print('checking...')
+            if (self.config.width < 9 or self.config.height < 7):
+                return protected_cells
+
+            if (self._width % 2 == 0):
+                center_x -= 1
+
+            if (center_y + 4 >= self.config.height):
+                return []
+            if (center_x + 5 >= self.config.width):
+                return []
+
+            # Number 4
+            protected_cells.append({'x': center_x - 1, 'y': center_y})
+            protected_cells.append({'x': center_x - 2, 'y': center_y})
+            protected_cells.append({'x': center_x - 3, 'y': center_y})
+            protected_cells.append({'x': center_x - 3, 'y': center_y - 1})
+            protected_cells.append({'x': center_x - 3, 'y': center_y - 2})
+            protected_cells.append({'x': center_x - 1, 'y': center_y})
+            protected_cells.append({'x': center_x - 1, 'y': center_y + 1})
+            protected_cells.append({'x': center_x - 1, 'y': center_y + 2})
+
+            if (self._width % 2 == 0):
+                center_x += 1
+
+            # Number 2
+            protected_cells.append({'x': center_x + 1, 'y': center_y})
+            protected_cells.append({'x': center_x + 2, 'y': center_y})
+            protected_cells.append({'x': center_x + 3, 'y': center_y})
+            protected_cells.append({'x': center_x + 3, 'y': center_y - 1})
+            protected_cells.append({'x': center_x + 3, 'y': center_y - 2})
+            protected_cells.append({'x': center_x + 1, 'y': center_y - 2})
+            protected_cells.append({'x': center_x + 2, 'y': center_y - 2})
+            protected_cells.append({'x': center_x + 1, 'y': center_y + 1})
+            protected_cells.append({'x': center_x + 1, 'y': center_y + 2})
+            protected_cells.append({'x': center_x + 2, 'y': center_y + 2})
+            protected_cells.append({'x': center_x + 3, 'y': center_y + 2})
+
+            # Check if entry or exit cells are on the 42 logo
+            for cell in protected_cells:
+                # time.sleep(0.5)
+                if self.config.entry_coords == cell or self.config.exit_coords == cell:
+                    allow_return = False
+                    print(self.config.entry_coords, self.config.exit_coords, cell)
+                    center_x += 1
+                    protected_cells = []
+                    break
+                else:
+                    allow_return = True
+
+            if (allow_return):
+                break
+            
+        return protected_cells
+
+    def get_protected_cells(self, x: int = -1, y: int = -1) -> list[dict[str, int]]:
+        """ Return the cells coords of the 42 logo """
+        display_type = 'auto'
+        if x == -1 and y == -1:
+            x = int(self._width / 2)
+            y = int(self._height / 2)
+            display_type = 'center'
+        protected_cells = []
+
+        # Impossible to print the 42 logo with current dimensions
+        if (self.config.width < 9 or self.config.height < 7):
+            return []
+
+        # Shift the number 4 to the left if it can't be centered
+        if (self._width % 2 == 0 and display_type == 'center'):
+            x -= 1
+
+        if (display_type == 'auto' and x + 4 >= self.config.width):
+            x = 5
+            y += 1
+            if (y + 4 >= self.config.height):
+                return []
 
         # Number 4
-        protected_cells.append({'x': center_x - 1, 'y': center_y})
-        protected_cells.append({'x': center_x - 2, 'y': center_y})
-        protected_cells.append({'x': center_x - 3, 'y': center_y})
-        protected_cells.append({'x': center_x - 3, 'y': center_y - 1})
-        protected_cells.append({'x': center_x - 3, 'y': center_y - 2})
-        protected_cells.append({'x': center_x - 1, 'y': center_y})
-        protected_cells.append({'x': center_x - 1, 'y': center_y + 1})
-        protected_cells.append({'x': center_x - 1, 'y': center_y + 2})
+        protected_cells.append({'x': x - 1, 'y': y})
+        protected_cells.append({'x': x - 2, 'y': y})
+        protected_cells.append({'x': x - 3, 'y': y})
+        protected_cells.append({'x': x - 3, 'y': y - 1})
+        protected_cells.append({'x': x - 3, 'y': y - 2})
+        protected_cells.append({'x': x - 1, 'y': y})
+        protected_cells.append({'x': x - 1, 'y': y + 1})
+        protected_cells.append({'x': x - 1, 'y': y + 2})
 
-        if (self._width % 2 == 0):
-            center_x += 1
+        # Shift the number 2 to the left if it can't be centered
+        if (self._width % 2 == 0 and display_type == 'center'):
+            x += 1
 
         # Number 2
-        protected_cells.append({'x': center_x + 1, 'y': center_y})
-        protected_cells.append({'x': center_x + 2, 'y': center_y})
-        protected_cells.append({'x': center_x + 3, 'y': center_y})
-        protected_cells.append({'x': center_x + 3, 'y': center_y - 1})
-        protected_cells.append({'x': center_x + 3, 'y': center_y - 2})
-        protected_cells.append({'x': center_x + 1, 'y': center_y - 2})
-        protected_cells.append({'x': center_x + 2, 'y': center_y - 2})
-        protected_cells.append({'x': center_x + 1, 'y': center_y + 1})
-        protected_cells.append({'x': center_x + 1, 'y': center_y + 2})
-        protected_cells.append({'x': center_x + 2, 'y': center_y + 2})
-        protected_cells.append({'x': center_x + 3, 'y': center_y + 2})
+        protected_cells.append({'x': x + 1, 'y': y})
+        protected_cells.append({'x': x + 2, 'y': y})
+        protected_cells.append({'x': x + 3, 'y': y})
+        protected_cells.append({'x': x + 3, 'y': y - 1})
+        protected_cells.append({'x': x + 3, 'y': y - 2})
+        protected_cells.append({'x': x + 1, 'y': y - 2})
+        protected_cells.append({'x': x + 2, 'y': y - 2})
+        protected_cells.append({'x': x + 1, 'y': y + 1})
+        protected_cells.append({'x': x + 1, 'y': y + 2})
+        protected_cells.append({'x': x + 2, 'y': y + 2})
+        protected_cells.append({'x': x + 3, 'y': y + 2})
+
+        # Retur
+        if (display_type == 'auto'):
+            for cell in protected_cells:
+                if self.config.entry_coords == cell or self.config.exit_coords == cell:
+                    return (self.get_protected_cells(x + 1, y))
+
+        for cell in protected_cells:
+            if self.config.entry_coords == cell or self.config.exit_coords == cell:
+                return (self.get_protected_cells(1 + 4, 1 + 4))
 
         return protected_cells
 
