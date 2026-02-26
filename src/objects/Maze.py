@@ -1,30 +1,23 @@
 #!/usr/bin/python3
 
 
-from logging import config
 import random
-from sre_compile import dis
-
-from mypy.typeops import F
 
 from src import Cell
 from src.parsing import Config
+from typing import Any
 
-
-#   N
-# W< >E
-#   S
 
 class Maze():
     """ Maze object, containing dimensions, cells, etc. """
     def __init__(self, config: Config) -> None:
         self._width = config.width
         self._height = config.height
-        self.cells = []
+        self.cells: list[list[Cell]] = []
         self.setup_cells()
         self.config = config
 
-    def setup_cells(self):
+    def setup_cells(self) -> None:
         # Adding cell to the maze
         for y in range(self._height):
             current_line = []
@@ -33,9 +26,10 @@ class Maze():
                 x += 1
             self.cells.append(current_line)
             y += 1
+        return None
 
     def get_neighbours_cells(self, x: int, y: int) ->\
-            list[dict[str, int | str]]:
+            list[dict[str, Any]]:
         """ Return the cells around the given coords, that are breakable
          and unvisited. """
         neighbours_cells = []
@@ -81,8 +75,10 @@ class Maze():
 
         return neighbours_cells
 
-
-    def get_protected_cells(self, x: int = -1, y: int = -1) -> list[dict[str, int]]:
+    def get_protected_cells(self,
+                            x: int = -1,
+                            y: int = -1) -> list[
+                                dict[str, int]]:
         """ Return the cells coords of the 42 logo """
         if (not self.config.display_ft_pattern):
             return []
@@ -137,22 +133,25 @@ class Maze():
         # Retur
         if (display_type == 'auto'):
             for cell in protected_cells:
-                if self.config.entry_coords == cell or self.config.exit_coords == cell:
+                if self.config.entry_coords == cell\
+                   or self.config.exit_coords == cell:
                     return (self.get_protected_cells(x + 1, y))
 
         for cell in protected_cells:
-            if self.config.entry_coords == cell or self.config.exit_coords == cell:
+            if self.config.entry_coords == cell\
+               or self.config.exit_coords == cell:
                 return (self.get_protected_cells(1 + 4, 1 + 4))
 
         return protected_cells
 
-    def debug(self):
+    def debug(self) -> None:
         for cell_line in self.cells:
             for cell in cell_line:
                 print(cell.get_hex_value(), end='')
             print('')
+        return None
 
-    def visualize(self):
+    def visualize(self) -> None:
         for line in self.cells:
             line_1 = ""
             line_2 = ""
@@ -201,6 +200,7 @@ class Maze():
             print(f"\033[0;36m{line_1}\033[0;0m")
             print(f"\033[0;36m{line_2}\033[0;0m")
             print(f"\033[0;36m{line_3}\033[0;0m")
+        return None
 
     def is_protected_cell(self, x: int, y: int) -> bool:
         """ Know if a particular cell is protected or not """
@@ -209,7 +209,7 @@ class Maze():
                 return True
         return False
 
-    def fill_cells(self):
+    def fill_cells(self) -> None:
         choices = ['0', '1', '2', '3',
                    '4', '5', '6', '7',
                    '8', '9', 'A', 'B',
@@ -221,6 +221,7 @@ class Maze():
                 if not self.is_protected_cell(x=x, y=y):
                     self.cells[y][x] = \
                         Cell.convert_hex_to_cell(random.choice(choices))
+        return None
 
     def break_wall(self, x: int, y: int, wall: str) -> None:
         match wall:
@@ -249,7 +250,7 @@ class Maze():
                 except Exception:
                     pass
 
-    def generate(self) -> str:
+    def generate(self) -> None:
         x = self.config.entry_coords['x']
         y = self.config.entry_coords['y']
         origin_x = x
@@ -281,8 +282,9 @@ class Maze():
                 x = random_cell['x']
                 y = random_cell['y']
                 stack.append({'x': x, 'y': y})
+        return None
 
-    def output_maze(self, output_file: str):
+    def output_maze(self, output_file: str) -> None:
         """ Output the maze in a hexadecimal representation """
         with open(output_file, 'w') as f:
             for line in self.cells:
@@ -290,9 +292,12 @@ class Maze():
                     f.write(cell.get_hex_value())
                 f.write('\n')
             f.write('\n')
-            f.write(f'{self.config.entry_coords['x']},{self.config.entry_coords['y']}')
+            f.write(f'{self.config.entry_coords['x']},'
+                    f'{self.config.entry_coords['y']}')
             f.write('\n')
-            f.write(f'{self.config.exit_coords['x']},{self.config.exit_coords['y']}')
+            f.write(f'{self.config.exit_coords['x']},'
+                    f'{self.config.exit_coords['y']}')
             f.write('\n')
-            f.write('THIS IS NOT OVER ! PLEASE COMPLETE ME, PLEASE, PLEAAAAAASE L4UR3NTG45P4RD')
-
+            f.write('THIS IS NOT OVER ! PLEASE COMPLETE ME, '
+                    'PLEASE, PLEAAAAAASE L4UR3NTG45P4RD')
+        return None

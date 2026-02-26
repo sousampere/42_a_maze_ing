@@ -5,6 +5,7 @@ import string
 
 from pydantic import BaseModel, Field, model_validator
 import random
+from typing import Any
 
 
 class ParsingError(Exception):
@@ -29,7 +30,7 @@ class Config(BaseModel):
     display_ft_pattern: bool
 
     @model_validator(mode='after')
-    def validate(self) -> "Config":
+    def validation(self) -> "Config":
         # Verify that there is no space in the output_file name
         if ' ' in self.output_file:
             raise ConfigError(f'Invalid file name: {self.output_file}')
@@ -55,8 +56,8 @@ class Config(BaseModel):
         return self
 
 
-def add_config(config: dict[str: any], key: str, value: str, type: object,
-               line: int) -> dict[str: any]:
+def add_config(config: dict[str, Any], key: str, value: str, type: object,
+               line: int) -> dict[str, Any]:
     """ Adding configuration line to the config dictionnary """
     # Integer
     if type is int:
@@ -106,7 +107,7 @@ def get_parsed_config(config_path: str = '../config.txt') -> Config:
             raw_config.append(line.split('#')[0])
 
         # Parsing configuration
-        config = {}
+        config: dict[str, Any] = {}
         current_line = 0
         for line in raw_config:
             current_line += 1
@@ -140,7 +141,7 @@ def get_parsed_config(config_path: str = '../config.txt') -> Config:
 
             # Bool
             if (line.startswith('PERFECT=')
-                or line.startswith('DISPLAY_FT_PATTERN=')):
+                    or line.startswith('DISPLAY_FT_PATTERN=')):
                 config = add_config(config=config,
                                     key=line.split('=')[0],
                                     value=line.split('=')[1],

@@ -1,9 +1,10 @@
 #!/usr/bin/python3
 
 import argparse
+from typing import Any
 
 
-def get_args() -> dict[str: any]:
+def get_args() -> dict[str, Any]:
     parser = argparse.ArgumentParser(
         prog='a-maze-ing',
         description='A-maze-ing program made by lbonnet & gtourdia.',

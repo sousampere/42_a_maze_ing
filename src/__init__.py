@@ -17,7 +17,7 @@ from src.misc.constants import Colors
 # Debug
 from src.misc.functions import debug
 
-__all__ = [Cell, Maze,
-           Config, get_parsed_config, get_args,
-           printerr, Colors,
-           debug]
+__all__ = ['Cell', 'Maze',
+           'Config', 'get_parsed_config', 'get_args',
+           'printerr', 'Colors',
+           'debug']

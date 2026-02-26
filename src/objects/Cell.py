@@ -51,7 +51,7 @@ class Cell():
                                          f'{available_directions.keys()}')
         return available_directions[direction]
 
-    def directions(self) -> dict[str: int]:
+    def directions(self) -> dict[str, int]:
         """ Returns all the directions values of a cell """
         return {
             'north': self._north,
@@ -82,7 +82,7 @@ class Cell():
             if (direction == 'west'):
                 self._west = value
 
-        return available_directions[direction]
+        return None
 
     def get_hex_value(self) -> str:
         int_value = int(f'{self._west}{self._south}'
@@ -100,7 +100,7 @@ class Cell():
         return Cell(int(binary[3]), int(binary[2]), int(binary[1]),
                     int(binary[0]))
 
-    def debug(self) -> dict[str:int]:
+    def debug(self) -> dict[str, int]:
         """ Prints the data of the cell, for debug purposes """
         print('=== CELL DEBUG ===')
         print(f'|North: {self._north}')

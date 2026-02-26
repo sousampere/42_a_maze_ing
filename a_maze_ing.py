@@ -6,7 +6,7 @@ from src import get_args
 from src import debug
 
 
-def main():
+def main() -> None:
     print("Hello from a-maze-ing!")
 
 
