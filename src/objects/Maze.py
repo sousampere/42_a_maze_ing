@@ -162,7 +162,7 @@ class Maze():
             if key.char == "+":
                 self.speed = max(0.03, self.speed - 0.01)
             elif key.char == "-":
-                self.speed = min(2.0, self.speed + 0.05)
+                self.speed = min(1.0, self.speed + 0.01)
             elif key.char == "c":
                 pass
         except AttributeError:
@@ -310,6 +310,7 @@ class Maze():
                 x = random_cell['x']
                 y = random_cell['y']
                 stack.append({'x': x, 'y': y})
+                self.visualize()
         return None
 
     def output_maze(self, output_file: str) -> None:
