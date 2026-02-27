@@ -81,6 +81,45 @@ class Maze():
             pass
 
         return neighbours_cells
+    
+    def get_neighbours_open_cells(self, x: int, y: int) ->\
+            list[dict[str, Any]]:
+        """ Return the cells open around the given coords """
+        neighbours_cells = []
+        # East
+        try:
+            if (x + 1 != self.config.width
+                    and self.cells[y][x].directions()['east'] != 1):
+                neighbours_cells.append({'x': x + 1, 'y': y,
+                                         'direction': 'east'})
+        except Exception:
+            pass
+
+        # West
+        try:
+            if (x - 1 != -1 and self.cells[y][x].directions()['west'] != 1):
+                neighbours_cells.append({'x': x - 1, 'y': y,
+                                         'direction': 'west'})
+        except Exception:
+            pass
+
+        # South
+        try:
+            if (y + 1 != self.config.height and self.cells[y][x].directions()['south'] != 1):
+                neighbours_cells.append({'x': x, 'y': y + 1,
+                                         'direction': 'south'})
+        except Exception:
+            pass
+
+        # North
+        try:
+            if (y - 1 != -1 and self.cells[y][x].directions()['north'] != 1):
+                neighbours_cells.append({'x': x, 'y': y - 1,
+                                         'direction': 'north'})
+        except Exception:
+            pass
+
+        return neighbours_cells
 
     def get_protected_cells(self,
                             x: int = -1,
