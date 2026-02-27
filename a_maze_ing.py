@@ -7,6 +7,7 @@ from src.misc.constants import Colors
 import sys
 from src.parsing import ConfigError, ParsingError
 from pydantic import ValidationError
+from termios import TCIFLUSH, tcflush
 
 
 def main() -> None:
@@ -29,7 +30,7 @@ if __name__ == "__main__":
     maze.generate()
     maze.stop_listener()
 
-    maze.visualize()
+    # maze.visualize()
     if len(maze.get_protected_cells()) == 0:
         print(f'{Colors.RED}Your configuration made displaying the 42 pattern impossible.{Colors.END}', file=sys.stderr)
     try:
@@ -39,3 +40,4 @@ if __name__ == "__main__":
 
     print(maze.config)
     main()
+    tcflush(sys.stdin.fileno(), TCIFLUSH)

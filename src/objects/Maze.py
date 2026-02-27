@@ -5,9 +5,12 @@ import random
 import time
 import sys
 from pynput import keyboard
+from itertools import cycle
+from termios import TCIFLUSH, tcflush
 
 from src import Cell
-from src.parsing import Config
+from src.parsing import Config, get_parsed_config
+from src.misc.arguments import get_args
 from typing import Any
 
 
@@ -20,6 +23,16 @@ class Maze():
         self.setup_cells()
         self.config = config
         self.speed = 0.1
+        self.colors = ['\033[0;31m',
+                       '\033[1;32m',
+                       '\033[1;33m',
+                       '\033[1;35m',
+                       '\033[0;35m',
+                       '\033[0;34m',
+                       '\033[0;36m']
+        self.color_cycle = cycle(self.colors)
+        self.color = self.colors[6]
+        self.stop = False
         self.listener = keyboard.Listener(on_press=self._on_press)
         self.listener.start()
 
@@ -157,14 +170,19 @@ class Maze():
             print('')
         return None
 
+    def swap_at_index(to_swap: list, index: int) -> list:
+        return to_swap[index:] + to_swap[:index]
+
     def _on_press(self, key):
         try:
             if key.char == "+":
                 self.speed = max(0.03, self.speed - 0.01)
             elif key.char == "-":
-                self.speed = min(1.0, self.speed + 0.01)
+                self.speed = min(0.8, self.speed + 0.01)
             elif key.char == "c":
-                pass
+                self.color = next(self.color_cycle)
+            elif key.char == "r":
+                self.stop = True
         except AttributeError:
             pass
 
@@ -172,10 +190,11 @@ class Maze():
         self.listener.stop()
 
     def visualize(self):
-        print(self.speed)
         time.sleep(self.speed)
         print("\033[H\033[J", end="")
         buffer = ""
+        if self.stop is True:
+            return
         for line in self.cells:
             line_1 = ""
             line_2 = ""
@@ -215,9 +234,9 @@ class Maze():
                         l_1, l_2, l_3 = "▏    ▕", "▏    ▕", "🭼▁▁▁▁🭿"
                     case "F":
                         # l_1, l_2, l_3 = "🭽▔▔▔▔🭾", "▏ 🟧 ▕", "🭼▁▁▁▁🭿"
-                        l_1, l_2, l_3 = "\033[0;36m██████\033[0;36m", \
-                            "\033[0;36m██████\033[0;36m", \
-                            "\033[0;36m██████\033[0;36m"
+                        l_1, l_2, l_3 = f"{self.color}██████{self.color}", \
+                            f"{self.color}██████{self.color}", \
+                            f"{self.color}██████{self.color}"
                 line_1 += l_1
                 line_2 += l_2
                 line_3 += l_3
@@ -226,8 +245,7 @@ class Maze():
             buffer += line_3 + "\n"
             # print(f"\033[0;36m{line_1}\033[0;0m")
             # print(f"\033[0;36m{line_2}\033[0;0m")
-        print(f"\033[0;36m{buffer}\033[0;0m")
-        from termios import TCIFLUSH, tcflush
+        print(f"{self.color}{buffer}\033[0;0m")
         tcflush(sys.stdin.fileno(), TCIFLUSH)
 
     def is_protected_cell(self, x: int, y: int) -> bool:
@@ -279,6 +297,7 @@ class Maze():
                     pass
 
     def generate(self) -> None:
+        self.stop = False
         x = self.config.entry_coords['x']
         y = self.config.entry_coords['y']
         origin_x = x
@@ -295,7 +314,6 @@ class Maze():
         # print(origin_x, origin_y)
         # self.debug()
         stack.append({'x': x, 'y': y})
-
         while ([origin_x, origin_y] != [x, y] and len(stack) != 0):
             # While there are cells to visit
             # print('Cells', self.get_neighbours_cells(x, y))
@@ -311,6 +329,10 @@ class Maze():
                 y = random_cell['y']
                 stack.append({'x': x, 'y': y})
                 self.visualize()
+                if self.stop is True:
+                    new_maze()
+                    return None
+        self.visualize()
         return None
 
     def output_maze(self, output_file: str) -> None:
@@ -330,3 +352,12 @@ class Maze():
             f.write('THIS IS NOT OVER ! PLEASE COMPLETE ME, '
                     'PLEASE, PLEAAAAAASE L4UR3NTG45P4RD')
         return None
+
+
+def new_maze() -> Maze:
+    args = get_args()
+
+    config = get_parsed_config(args['config'])
+    maze = Maze(config)
+    maze.generate()
+    return maze
