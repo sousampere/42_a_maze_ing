@@ -5,6 +5,7 @@ __version__ = '0.1.0'
 # Objects folder import
 from src.objects.Cell import Cell
 from src.objects.Maze import Maze
+from src.objects.PathFinder import PathFinder
 
 # Parsing
 from src.parsing import Config, get_parsed_config
