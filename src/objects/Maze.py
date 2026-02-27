@@ -149,6 +149,10 @@ class Maze():
                or self.config.exit_coords == cell:
                 return (self.get_protected_cells(1 + 4, 1 + 4))
 
+        # Security if the 2 is touching the border: return nothing
+        if (x + 4 >= self.config.width):
+            return (self.get_protected_cells(x + 1, y))
+
         return protected_cells
 
     def debug(self) -> None:
