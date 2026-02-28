@@ -3,8 +3,8 @@ WIDTH=20
 HEIGHT=15
 
 # Entry/Exit coords
-ENTRY=8,7
-EXIT=10,10
+ENTRY=1,3
+EXIT=1,6
 
 # Maze output file path
 OUTPUT_FILE=maze.txt
@@ -13,7 +13,7 @@ OUTPUT_FILE=maze.txt
 PERFECT=True
 
 # Seed-based generation
-#SEED=laurent
+SEED=laurent
 
 # Available colors: 
 # red, orange, yellow, pink, purple, blue, cyan, random

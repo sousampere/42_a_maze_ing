@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 
-from src import Maze, get_parsed_config
+from src import Maze, get_parsed_config, PathFinder
 from src import get_args
 from src import debug
 from src.misc.constants import Colors
@@ -39,5 +39,7 @@ if __name__ == "__main__":
         print(f'{Colors.RED}Could not open your output file: no permissions.{Colors.END}', file=sys.stderr)
 
     print(maze.config)
+    path_finder = PathFinder()
+    print(PathFinder.find_path(maze))
     main()
     tcflush(sys.stdin.fileno(), TCIFLUSH)
