@@ -1,7 +1,6 @@
 #!/usr/bin/python3
 
 
-from logging import config
 import random
 import time
 import sys
@@ -34,6 +33,7 @@ class Maze():
         self.color_cycle = cycle(self.colors)
         self.color = self.colors[6]
         self.stop = False
+        self.pause = False
         self.listener = keyboard.Listener(on_press=self._on_press)
         self.listener.start()
 
@@ -188,6 +188,8 @@ class Maze():
                 self.color = next(self.color_cycle)
             elif key.char == "r":
                 self.stop = True
+            elif key.char == "p":
+                self.pause = True
         except AttributeError:
             pass
 
@@ -348,6 +350,10 @@ class Maze():
                 if self.stop is True:
                     new_maze()
                     return None
+                while self.pause is True:
+                    value = input("[PAUSED] - Press ENTER to continue...")
+                    if value == '':
+                        self.pause = False
         self.visualize()
         return None
 
