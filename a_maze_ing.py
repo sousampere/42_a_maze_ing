@@ -39,7 +39,12 @@ if __name__ == "__main__":
         print(f'{Colors.RED}Could not open your output file: no permissions.{Colors.END}', file=sys.stderr)
 
     print(maze.config)
+    maze.make_maze_perfect(False)
+    maze.visualize()
+    print('v')
     path_finder = PathFinder()
+    print('p')
     print(PathFinder.find_path(maze))
+    print('m')
     main()
     tcflush(sys.stdin.fileno(), TCIFLUSH)

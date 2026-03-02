@@ -12,6 +12,7 @@ from src import Cell
 from src.parsing import Config, get_parsed_config
 from src.misc.arguments import get_args
 from typing import Any
+import math
 
 
 class Maze():
@@ -428,7 +429,44 @@ class Maze():
             f.write('THIS IS NOT OVER ! PLEASE COMPLETE ME, '
                     'PLEASE, PLEAAAAAASE L4UR3NTG45P4RD')
         return None
-
+    
+    def make_maze_perfect(self, flag: bool) -> None:
+        if flag is False:
+            full_maze_done = False
+            breakable_walls = []
+            while not full_maze_done:
+                y_pos = 0
+                x_pos = 0
+                for lines in self.cells:
+                    for cells in lines:
+                        if (x_pos >= 0 and x_pos < self.config.width - 1
+                            and y_pos >= 1 and y_pos < self.config.height - 1):
+                            # Vertical break
+                            if (self.cells[y_pos][x_pos].directions()['east'] == 1
+                                and self.cells[y_pos - 1][x_pos].directions()['east'] == 1
+                                and self.cells[y_pos + 1][x_pos].directions()['east'] == 1
+                                and not self.is_protected_cell(x_pos + 1, y_pos)
+                                and not self.is_protected_cell(x_pos, y_pos)):
+                                breakable_walls.append({'x': x_pos, 'y': y_pos, 'direction': 'east'})
+                                # self.break_wall(x_pos, y_pos, 'east')
+                                # print('breaking wall vertical')
+                        if (x_pos >= 1 and x_pos < self.config.width - 1
+                            and y_pos >= 0 and y_pos < self.config.height - 1):
+                            # Horizontal break
+                            if (self.cells[y_pos][x_pos].directions()['south'] == 1
+                                and self.cells[y_pos][x_pos - 1].directions()['south'] == 1
+                                and self.cells[y_pos][x_pos + 1].directions()['south'] == 1
+                                and not self.is_protected_cell(x_pos, y_pos + 1)
+                                and not self.is_protected_cell(x_pos, y_pos)):
+                                breakable_walls.append({'x': x_pos, 'y': y_pos, 'direction': 'south'})
+                                # self.break_wall(x_pos, y_pos, 'south')
+                                # print('breaking wall hor')
+                        x_pos += 1
+                    y_pos += 1
+                    x_pos = 0
+                full_maze_done = True
+            for wall in random.choices(breakable_walls, k=(1 + int(math.sqrt(self.config.width + self.config.height)))):
+                self.break_wall(wall['x'], wall['y'], wall['direction'])
 
 def new_maze() -> Maze:
     args = get_args()

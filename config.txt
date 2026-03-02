@@ -1,5 +1,7 @@
 # Dimensions
-WIDTH=20
+#WIDTH=50
+#HEIGHT=20
+WIDTH=15
 HEIGHT=15
 
 # Entry/Exit coords
@@ -13,7 +15,7 @@ OUTPUT_FILE=maze.txt
 PERFECT=True
 
 # Seed-based generation
-SEED=laurent
+SEED=breaking_badv
 
 # Available colors: 
 # red, orange, yellow, pink, purple, blue, cyan, random
