@@ -62,6 +62,7 @@ class PathFinder():
             for cell in new_previous_cells:
                 if (cell['coords']['x'] == exit_x
                    and cell['coords']['y'] == exit_y):
+                    maze.shortest_path = cell['history']
                     return cell['history']
             for cell in previous_cells:
                 absolute_cell_history.append(cell['coords'])

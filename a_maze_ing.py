@@ -49,3 +49,8 @@ if __name__ == "__main__":
     print(PathFinder.find_path(maze))
     main()
     tcflush(sys.stdin.fileno(), TCIFLUSH)
+    try:
+        maze.output_maze('output_maze.txt')
+    except PermissionError:
+        print(f'{Colors.RED}Could not open your output file: '
+              f'no permissions.{Colors.END}', file=sys.stderr)

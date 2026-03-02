@@ -37,6 +37,7 @@ class Maze():
         self.pause = False
         self.listener = keyboard.Listener(on_press=self._on_press)
         self.listener.start()
+        self.shortest_path = ''
 
     def setup_cells(self) -> None:
         # Adding cell to the maze
@@ -426,8 +427,7 @@ class Maze():
             f.write(f'{self.config.exit_coords['x']},'
                     f'{self.config.exit_coords['y']}')
             f.write('\n')
-            f.write('THIS IS NOT OVER ! PLEASE COMPLETE ME, '
-                    'PLEASE, PLEAAAAAASE L4UR3NTG45P4RD')
+            f.write(self.shortest_path)
         return None
 
     def make_maze_perfect(self, flag: bool) -> None:
