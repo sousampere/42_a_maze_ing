@@ -12,10 +12,10 @@ EXIT=1,6
 OUTPUT_FILE=maze.txt
 
 # Enable/disable perfect maze
-PERFECT=True
+PERFECT=False
 
 # Seed-based generation
-SEED=breaking_badv
+SEED=pathfinder_seed
 
 # Available colors: 
 # red, orange, yellow, pink, purple, blue, cyan, random

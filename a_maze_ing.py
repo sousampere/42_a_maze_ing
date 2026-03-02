@@ -39,7 +39,7 @@ if __name__ == "__main__":
         print(f'{Colors.RED}Could not open your output file: no permissions.{Colors.END}', file=sys.stderr)
 
     print(maze.config)
-    maze.make_maze_perfect(False)
+    maze.make_maze_perfect(maze.config.perfect)
     maze.visualize()
     print('v')
     path_finder = PathFinder()

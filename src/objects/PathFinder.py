@@ -18,6 +18,7 @@ class PathFinder():
             'coords': {'x': entry_x, 'y': entry_y},
             'history': '',
             })
+        absolute_cell_history = []
 
         # Loop until path found
         while (True):
@@ -50,13 +51,18 @@ class PathFinder():
                         add_cell = False if cell['history'][-1] == 'N' \
                             and direction == 'S' else True
                     if add_cell:
-                        new_previous_cells.append({
-                            'coords': {'x': neighbour['x'],
-                                       'y': neighbour['y']},
-                            'history': cell['history'] + direction
-                        })
+                        if {'x': neighbour['x'], 'y': neighbour['y']}\
+                           not in absolute_cell_history:
+                            new_previous_cells.append({
+                                'coords': {'x': neighbour['x'],
+                                           'y': neighbour['y']},
+                                'history': cell['history'] + direction
+                            })
+
             for cell in new_previous_cells:
                 if (cell['coords']['x'] == exit_x
                    and cell['coords']['y'] == exit_y):
                     return cell['history']
+            for cell in previous_cells:
+                absolute_cell_history.append(cell['coords'])
             previous_cells = new_previous_cells
