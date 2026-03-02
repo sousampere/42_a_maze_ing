@@ -51,13 +51,13 @@ run:
 	uv run python a_maze_ing.py --config_path config.txt
 
 flake8: sync
-	uv run python3.14 -m flake8 ./src
+	uv run python -m flake8 ./src
 
 mypy: sync
-	uv run python3.14 -m mypy . --warn-return-any --warn-unused-ignores --ignore-missing-imports --disallow-untyped-defs --check-untyped-defs
+	uv run python -m mypy . --warn-return-any --warn-unused-ignores --ignore-missing-imports --disallow-untyped-defs --check-untyped-defs
 
 mypy-strict: sync
-	uv run python3.14 -m mypy . --strict
+	uv run python -m mypy . --strict
 
 lint: flake8 mypy
 

@@ -4,7 +4,7 @@
 import random
 import time
 import sys
-from pynput import keyboard
+from pynput import keyboard  # type: ignore[import-untyped]
 from itertools import cycle
 from termios import TCIFLUSH, tcflush
 
@@ -94,7 +94,7 @@ class Maze():
             pass
 
         return neighbours_cells
-    
+
     def get_neighbours_open_cells(self, x: int, y: int) ->\
             list[dict[str, Any]]:
         """ Return the cells open around the given coords """
@@ -118,7 +118,8 @@ class Maze():
 
         # South
         try:
-            if (y + 1 != self.config.height and self.cells[y][x].directions()['south'] != 1):
+            if (y + 1 != self.config.height
+               and self.cells[y][x].directions()['south'] != 1):
                 neighbours_cells.append({'x': x, 'y': y + 1,
                                          'direction': 'south'})
         except Exception:
@@ -214,10 +215,7 @@ class Maze():
             print('')
         return None
 
-    def swap_at_index(to_swap: list, index: int) -> list:
-        return to_swap[index:] + to_swap[:index]
-
-    def _on_press(self, key):
+    def _on_press(self, key: Any) -> None:
         try:
             if key.char == "+":
                 self.speed = max(0.03, self.speed - 0.01)
@@ -232,10 +230,10 @@ class Maze():
         except AttributeError:
             pass
 
-    def stop_listener(self):
+    def stop_listener(self) -> None:
         self.listener.stop()
 
-    def visualize(self):
+    def visualize(self) -> None:
         time.sleep(self.speed)
         print("\033[H\033[J", end="")
         buffer = ""
@@ -249,43 +247,60 @@ class Maze():
             line_3 = ""
             for char in line:
                 l_1, l_2, l_3 = "", "", ""
-                if (x == self.config.entry_coords['x'] and y == self.config.entry_coords['y']):
+                if (x == self.config.entry_coords['x']
+                   and y == self.config.entry_coords['y']):
                     center_char = '🏠'
-                elif (x == self.config.exit_coords['x'] and y == self.config.exit_coords['y']):
+                elif (x == self.config.exit_coords['x']
+                      and y == self.config.exit_coords['y']):
                     center_char = '🚀'
                 else:
                     center_char = '  '
                 match char.get_hex_value():
                     case "0":
-                        l_1, l_2, l_3 = "      ", f"  {center_char}  ", "      "
+                        l_1, l_2, l_3 = \
+                            "      ", f"  {center_char}  ", "      "
                     case "1":
-                        l_1, l_2, l_3 = "▔▔▔▔▔▔", f"  {center_char}  ", "      "
+                        l_1, l_2, l_3 = \
+                            "▔▔▔▔▔▔", f"  {center_char}  ", "      "
                     case "2":
-                        l_1, l_2, l_3 = "     ▕", f"  {center_char} ▕", "     ▕"
+                        l_1, l_2, l_3 = \
+                            "     ▕", f"  {center_char} ▕", "     ▕"
                     case "3":
-                        l_1, l_2, l_3 = "▔▔▔▔▔🭾", f"  {center_char} ▕", "     ▕"
+                        l_1, l_2, l_3 = \
+                            "▔▔▔▔▔🭾", f"  {center_char} ▕", "     ▕"
                     case "4":
-                        l_1, l_2, l_3 = "      ", f"  {center_char}  ", "▁▁▁▁▁▁"
+                        l_1, l_2, l_3 = \
+                            "      ", f"  {center_char}  ", "▁▁▁▁▁▁"
                     case "5":
-                        l_1, l_2, l_3 = "▔▔▔▔▔▔", f"  {center_char}  ", "▁▁▁▁▁▁"
+                        l_1, l_2, l_3 = \
+                            "▔▔▔▔▔▔", f"  {center_char}  ", "▁▁▁▁▁▁"
                     case "6":
-                        l_1, l_2, l_3 = "     ▕", f"  {center_char} ▕", "▁▁▁▁▁🭿"
+                        l_1, l_2, l_3 = \
+                            "     ▕", f"  {center_char} ▕", "▁▁▁▁▁🭿"
                     case "7":
-                        l_1, l_2, l_3 = "▔▔▔▔▔🭾", f"  {center_char} ▕", "▁▁▁▁▁🭿"
+                        l_1, l_2, l_3 = \
+                            "▔▔▔▔▔🭾", f"  {center_char} ▕", "▁▁▁▁▁🭿"
                     case "8":
-                        l_1, l_2, l_3 = "▏     ", f"▏ {center_char}  ", "▏     "
+                        l_1, l_2, l_3 = \
+                            "▏     ", f"▏ {center_char}  ", "▏     "
                     case "9":
-                        l_1, l_2, l_3 = "🭽▔▔▔▔▔", f"▏ {center_char}  ", "▏     "
+                        l_1, l_2, l_3 = \
+                            "🭽▔▔▔▔▔", f"▏ {center_char}  ", "▏     "
                     case "A":
-                        l_1, l_2, l_3 = "▏    ▕", f"▏ {center_char} ▕", "▏    ▕"
+                        l_1, l_2, l_3 = \
+                            "▏    ▕", f"▏ {center_char} ▕", "▏    ▕"
                     case "B":
-                        l_1, l_2, l_3 = "🭽▔▔▔▔🭾", f"▏ {center_char} ▕", "▏    ▕"
+                        l_1, l_2, l_3 = \
+                            "🭽▔▔▔▔🭾", f"▏ {center_char} ▕", "▏    ▕"
                     case "C":
-                        l_1, l_2, l_3 = "▏     ", f"▏ {center_char}  ", "🭼▁▁▁▁▁"
+                        l_1, l_2, l_3 = \
+                            "▏     ", f"▏ {center_char}  ", "🭼▁▁▁▁▁"
                     case "D":
-                        l_1, l_2, l_3 = "🭽▔▔▔▔▔", f"▏ {center_char}  ", "🭼▁▁▁▁▁"
+                        l_1, l_2, l_3 = \
+                            "🭽▔▔▔▔▔", f"▏ {center_char}  ", "🭼▁▁▁▁▁"
                     case "E":
-                        l_1, l_2, l_3 = "▏    ▕", f"▏ {center_char} ▕", "🭼▁▁▁▁🭿"
+                        l_1, l_2, l_3 = \
+                            "▏    ▕", f"▏ {center_char} ▕", "🭼▁▁▁▁🭿"
                     case "F":
                         # l_1, l_2, l_3 = "🭽▔▔▔▔🭾", "▏ 🟧 ▕", "🭼▁▁▁▁🭿"
                         l_1, l_2, l_3 = f"{self.color}██████{self.color}", \
