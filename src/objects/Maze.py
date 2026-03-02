@@ -403,7 +403,7 @@ class Maze():
                 stack.append({'x': x, 'y': y})
                 self.visualize()
                 if self.stop is True:
-                    new_maze()
+                    self.__dict__.update(new_maze().__dict__)
                     return None
                 while self.pause is True:
                     value = input("[PAUSED] - Press ENTER to continue...")
