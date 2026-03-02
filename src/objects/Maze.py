@@ -23,20 +23,8 @@ class Maze():
         self.cells: list[list[Cell]] = []
         self.setup_cells()
         self.config = config
-        self.speed = 0.1
-        self.colors = ['\033[0;31m',
-                       '\033[1;32m',
-                       '\033[1;33m',
-                       '\033[1;35m',
-                       '\033[0;35m',
-                       '\033[0;34m',
-                       '\033[0;36m']
-        self.color_cycle = cycle(self.colors)
-        self.color = self.colors[6]
-        self.stop = False
-        self.pause = False
-        self.listener = keyboard.Listener(on_press=self._on_press)
-        self.listener.start()
+        self.control = Controller()
+        self.control.start_listener()
         self.shortest_path = ''
 
     def setup_cells(self) -> None:
@@ -90,46 +78,6 @@ class Maze():
             if (y - 1 != -1 and
                 self.cells[y - 1][x].get_hex_value() == 'F'
                     and not self.is_protected_cell(x, y - 1)):
-                neighbours_cells.append({'x': x, 'y': y - 1,
-                                         'direction': 'north'})
-        except Exception:
-            pass
-
-        return neighbours_cells
-
-    def get_neighbours_open_cells(self, x: int, y: int) ->\
-            list[dict[str, Any]]:
-        """ Return the cells open around the given coords """
-        neighbours_cells = []
-        # East
-        try:
-            if (x + 1 != self.config.width
-                    and self.cells[y][x].directions()['east'] != 1):
-                neighbours_cells.append({'x': x + 1, 'y': y,
-                                         'direction': 'east'})
-        except Exception:
-            pass
-
-        # West
-        try:
-            if (x - 1 != -1 and self.cells[y][x].directions()['west'] != 1):
-                neighbours_cells.append({'x': x - 1, 'y': y,
-                                         'direction': 'west'})
-        except Exception:
-            pass
-
-        # South
-        try:
-            if (y + 1 != self.config.height
-               and self.cells[y][x].directions()['south'] != 1):
-                neighbours_cells.append({'x': x, 'y': y + 1,
-                                         'direction': 'south'})
-        except Exception:
-            pass
-
-        # North
-        try:
-            if (y - 1 != -1 and self.cells[y][x].directions()['north'] != 1):
                 neighbours_cells.append({'x': x, 'y': y - 1,
                                          'direction': 'north'})
         except Exception:
@@ -210,118 +158,6 @@ class Maze():
 
         return protected_cells
 
-    def debug(self) -> None:
-        for cell_line in self.cells:
-            for cell in cell_line:
-                print(cell.get_hex_value(), end='')
-            print('')
-        return None
-
-    def _on_press(self, key: Any) -> None:
-        try:
-            if key.char == "+":
-                self.speed = max(0.03, self.speed - 0.01)
-            elif key.char == "-":
-                self.speed = min(0.8, self.speed + 0.01)
-            elif key.char == "c":
-                self.color = next(self.color_cycle)
-            elif key.char == "r":
-                self.stop = True
-            elif key.char == "p":
-                self.pause = True
-        except AttributeError:
-            pass
-
-    def stop_listener(self) -> None:
-        self.listener.stop()
-
-    def visualize(self) -> None:
-        time.sleep(self.speed)
-        print("\033[H\033[J", end="")
-        buffer = ""
-        if self.stop is True:
-            return
-        y = 0
-        x = 0
-        for line in self.cells:
-            line_1 = ""
-            line_2 = ""
-            line_3 = ""
-            for char in line:
-                l_1, l_2, l_3 = "", "", ""
-                if (x == self.config.entry_coords['x']
-                   and y == self.config.entry_coords['y']):
-                    center_char = '🏠'
-                elif (x == self.config.exit_coords['x']
-                      and y == self.config.exit_coords['y']):
-                    center_char = '🚀'
-                else:
-                    center_char = '  '
-                match char.get_hex_value():
-                    case "0":
-                        l_1, l_2, l_3 = \
-                            "      ", f"  {center_char}  ", "      "
-                    case "1":
-                        l_1, l_2, l_3 = \
-                            "▔▔▔▔▔▔", f"  {center_char}  ", "      "
-                    case "2":
-                        l_1, l_2, l_3 = \
-                            "     ▕", f"  {center_char} ▕", "     ▕"
-                    case "3":
-                        l_1, l_2, l_3 = \
-                            "▔▔▔▔▔🭾", f"  {center_char} ▕", "     ▕"
-                    case "4":
-                        l_1, l_2, l_3 = \
-                            "      ", f"  {center_char}  ", "▁▁▁▁▁▁"
-                    case "5":
-                        l_1, l_2, l_3 = \
-                            "▔▔▔▔▔▔", f"  {center_char}  ", "▁▁▁▁▁▁"
-                    case "6":
-                        l_1, l_2, l_3 = \
-                            "     ▕", f"  {center_char} ▕", "▁▁▁▁▁🭿"
-                    case "7":
-                        l_1, l_2, l_3 = \
-                            "▔▔▔▔▔🭾", f"  {center_char} ▕", "▁▁▁▁▁🭿"
-                    case "8":
-                        l_1, l_2, l_3 = \
-                            "▏     ", f"▏ {center_char}  ", "▏     "
-                    case "9":
-                        l_1, l_2, l_3 = \
-                            "🭽▔▔▔▔▔", f"▏ {center_char}  ", "▏     "
-                    case "A":
-                        l_1, l_2, l_3 = \
-                            "▏    ▕", f"▏ {center_char} ▕", "▏    ▕"
-                    case "B":
-                        l_1, l_2, l_3 = \
-                            "🭽▔▔▔▔🭾", f"▏ {center_char} ▕", "▏    ▕"
-                    case "C":
-                        l_1, l_2, l_3 = \
-                            "▏     ", f"▏ {center_char}  ", "🭼▁▁▁▁▁"
-                    case "D":
-                        l_1, l_2, l_3 = \
-                            "🭽▔▔▔▔▔", f"▏ {center_char}  ", "🭼▁▁▁▁▁"
-                    case "E":
-                        l_1, l_2, l_3 = \
-                            "▏    ▕", f"▏ {center_char} ▕", "🭼▁▁▁▁🭿"
-                    case "F":
-                        # l_1, l_2, l_3 = "🭽▔▔▔▔🭾", "▏ 🟧 ▕", "🭼▁▁▁▁🭿"
-                        l_1, l_2, l_3 = f"{self.color}██████{self.color}", \
-                            f"{self.color}██████{self.color}", \
-                            f"{self.color}██████{self.color}"
-                line_1 += l_1
-                line_2 += l_2
-                line_3 += l_3
-                x += 1
-            x = 0
-            y += 1
-            buffer += line_1 + "\n"
-            buffer += line_2 + "\n"
-            buffer += line_3 + "\n"
-            # print(f"\033[0;36m{line_1}\033[0;0m")
-            # print(f"\033[0;36m{line_2}\033[0;0m")
-        print(f"{self.color}{buffer}\033[0;0m")
-        tcflush(sys.stdin.fileno(), TCIFLUSH)
-
     def is_protected_cell(self, x: int, y: int) -> bool:
         """ Know if a particular cell is protected or not """
         for cell in self.get_protected_cells():
@@ -369,49 +205,6 @@ class Maze():
                     self.cells[y][x - 1].set_direction('east', 0)
                 except Exception:
                     pass
-
-    def generate(self) -> None:
-        self.stop = False
-        x = self.config.entry_coords['x']
-        y = self.config.entry_coords['y']
-        origin_x = x
-        origin_y = y
-
-        available_cells = self.get_neighbours_cells(x, y)
-        random_cell = random.choice(available_cells)
-        self.break_wall(x, y, random_cell['direction'])
-        x = random_cell['x']
-        y = random_cell['y']
-        stack = []
-
-        # print(x, y)
-        # print(origin_x, origin_y)
-        # self.debug()
-        stack.append({'x': x, 'y': y})
-        while ([origin_x, origin_y] != [x, y] and len(stack) != 0):
-            # While there are cells to visit
-            # print('Cells', self.get_neighbours_cells(x, y))
-            x = stack[-1]['x']
-            y = stack[-1]['y']
-            stack.pop()
-            while (len(self.get_neighbours_cells(x, y)) != 0):
-                stack.append({'x': x, 'y': y})
-                available_cells = self.get_neighbours_cells(x, y)
-                random_cell = random.choice(available_cells)
-                self.break_wall(x, y, random_cell['direction'])
-                x = random_cell['x']
-                y = random_cell['y']
-                stack.append({'x': x, 'y': y})
-                self.visualize()
-                if self.stop is True:
-                    self.__dict__.update(new_maze().__dict__)
-                    return None
-                while self.pause is True:
-                    value = input("[PAUSED] - Press ENTER to continue...")
-                    if value == '':
-                        self.pause = False
-        self.visualize()
-        return None
 
     def output_maze(self, output_file: str) -> None:
         """ Output the maze in a hexadecimal representation """
@@ -486,10 +279,199 @@ class Maze():
                 self.break_wall(wall['x'], wall['y'], wall['direction'])
 
 
-def new_maze() -> Maze:
-    args = get_args()
+class MazeVisualizer():
+    def visualize(maze: Maze) -> None:
+        time.sleep(maze.control.speed)
+        print("\033[H\033[J", end="")
+        buffer = ""
+        if maze.control.stop is True:
+            return
+        y = 0
+        x = 0
+        for line in maze.cells:
+            line_1 = ""
+            line_2 = ""
+            line_3 = ""
+            for char in line:
+                l_1, l_2, l_3 = "", "", ""
+                if (x == maze.config.entry_coords['x']
+                   and y == maze.config.entry_coords['y']):
+                    center_char = '🏠'
+                elif (x == maze.config.exit_coords['x']
+                      and y == maze.config.exit_coords['y']):
+                    center_char = '🚀'
+                else:
+                    center_char = '  '
+                match char.get_hex_value():
+                    case "0":
+                        l_1, l_2, l_3 = \
+                            "      ", f"  {center_char}  ", "      "
+                    case "1":
+                        l_1, l_2, l_3 = \
+                            "▔▔▔▔▔▔", f"  {center_char}  ", "      "
+                    case "2":
+                        l_1, l_2, l_3 = \
+                            "     ▕", f"  {center_char} ▕", "     ▕"
+                    case "3":
+                        l_1, l_2, l_3 = \
+                            "▔▔▔▔▔🭾", f"  {center_char} ▕", "     ▕"
+                    case "4":
+                        l_1, l_2, l_3 = \
+                            "      ", f"  {center_char}  ", "▁▁▁▁▁▁"
+                    case "5":
+                        l_1, l_2, l_3 = \
+                            "▔▔▔▔▔▔", f"  {center_char}  ", "▁▁▁▁▁▁"
+                    case "6":
+                        l_1, l_2, l_3 = \
+                            "     ▕", f"  {center_char} ▕", "▁▁▁▁▁🭿"
+                    case "7":
+                        l_1, l_2, l_3 = \
+                            "▔▔▔▔▔🭾", f"  {center_char} ▕", "▁▁▁▁▁🭿"
+                    case "8":
+                        l_1, l_2, l_3 = \
+                            "▏     ", f"▏ {center_char}  ", "▏     "
+                    case "9":
+                        l_1, l_2, l_3 = \
+                            "🭽▔▔▔▔▔", f"▏ {center_char}  ", "▏     "
+                    case "A":
+                        l_1, l_2, l_3 = \
+                            "▏    ▕", f"▏ {center_char} ▕", "▏    ▕"
+                    case "B":
+                        l_1, l_2, l_3 = \
+                            "🭽▔▔▔▔🭾", f"▏ {center_char} ▕", "▏    ▕"
+                    case "C":
+                        l_1, l_2, l_3 = \
+                            "▏     ", f"▏ {center_char}  ", "🭼▁▁▁▁▁"
+                    case "D":
+                        l_1, l_2, l_3 = \
+                            "🭽▔▔▔▔▔", f"▏ {center_char}  ", "🭼▁▁▁▁▁"
+                    case "E":
+                        l_1, l_2, l_3 = \
+                            "▏    ▕", f"▏ {center_char} ▕", "🭼▁▁▁▁🭿"
+                    case "F":
+                        # l_1, l_2, l_3 = "🭽▔▔▔▔🭾", "▏ 🟧 ▕", "🭼▁▁▁▁🭿"
+                        l_1, l_2, l_3 = f"{maze.control.color}██████"\
+                                        f"{maze.control.color}", \
+                                        f"{maze.control.color}██████"\
+                                        f"{maze.control.color}", \
+                                        f"{maze.control.color}██████"\
+                                        f"{maze.control.color}"
+                line_1 += l_1
+                line_2 += l_2
+                line_3 += l_3
+                x += 1
+            x = 0
+            y += 1
+            buffer += line_1 + "\n"
+            buffer += line_2 + "\n"
+            buffer += line_3 + "\n"
+            # print(f"\033[0;36m{line_1}\033[0;0m")
+            # print(f"\033[0;36m{line_2}\033[0;0m")
+        print(f"{maze.control.color}{buffer}\033[0;0m")
+        tcflush(sys.stdin.fileno(), TCIFLUSH)
 
-    config = get_parsed_config(args['config'])
-    maze = Maze(config)
-    maze.generate()
-    return maze
+
+class MazeGenerator():
+    def __init__(self, flag):
+        self.visulalize = flag
+        self.maze = None
+
+    def generate(self, maze: Maze) -> None:
+        maze.control.stop = False
+        x = maze.config.entry_coords['x']
+        y = maze.config.entry_coords['y']
+        origin_x = x
+        origin_y = y
+
+        available_cells = maze.get_neighbours_cells(x, y)
+        random_cell = random.choice(available_cells)
+        maze.break_wall(x, y, random_cell['direction'])
+        x = random_cell['x']
+        y = random_cell['y']
+        stack = []
+
+        # print(x, y)
+        # print(origin_x, origin_y)
+        # self.debug()
+        stack.append({'x': x, 'y': y})
+        while ([origin_x, origin_y] != [x, y] and len(stack) != 0):
+            # While there are cells to visit
+            # print('Cells', self.get_neighbours_cells(x, y))
+            x = stack[-1]['x']
+            y = stack[-1]['y']
+            stack.pop()
+            while (len(maze.get_neighbours_cells(x, y)) != 0):
+                stack.append({'x': x, 'y': y})
+                available_cells = maze.get_neighbours_cells(x, y)
+                random_cell = random.choice(available_cells)
+                maze.break_wall(x, y, random_cell['direction'])
+                x = random_cell['x']
+                y = random_cell['y']
+                stack.append({'x': x, 'y': y})
+                if self.visulalize is True:
+                    MazeVisualizer.visualize(maze)
+                if maze.control.stop is True:
+                    maze.__dict__.update(self.new_maze().__dict__)
+                    self.maze = maze
+                    return None
+                while maze.control.pause is True:
+                    value = input("[PAUSED] - Press ENTER to continue...")
+                    if value == '':
+                        maze.control.pause = False
+        if self.visulalize is True:
+            MazeVisualizer.visualize(maze)
+        self.maze = maze
+        return None
+
+    def get_generated_maze(self):
+        return self.maze
+
+    def get_solution(self):
+        from src import PathFinder
+        return PathFinder.find_path(self.maze)
+
+    def new_maze(self) -> Maze:
+        args = get_args()
+
+        config = get_parsed_config(args['config'])
+        maze = Maze(config)
+        MazeGenerator(self.visulalize).generate(maze)
+        return maze
+
+
+class Controller():
+    def __init__(self):
+        self.listener = keyboard.Listener(on_press=self._on_press)
+        self.speed = 0.1
+        self.colors = ['\033[0;31m',
+                       '\033[1;32m',
+                       '\033[1;33m',
+                       '\033[1;35m',
+                       '\033[0;35m',
+                       '\033[0;34m',
+                       '\033[0;36m']
+        self.color_cycle = cycle(self.colors)
+        self.color = self.colors[6]
+        self.stop = False
+        self.pause = False
+
+    def _on_press(self, key: Any) -> None:
+        try:
+            if key.char == "+":
+                self.speed = max(0.03, self.speed - 0.01)
+            elif key.char == "-":
+                self.speed = min(0.8, self.speed + 0.01)
+            elif key.char == "c":
+                self.color = next(self.color_cycle)
+            elif key.char == "r":
+                self.stop = True
+            elif key.char == "p":
+                self.pause = True
+        except AttributeError:
+            pass
+
+    def start_listener(self) -> None:
+        self.listener.start()
+
+    def stop_listener(self) -> None:
+        self.listener.stop()

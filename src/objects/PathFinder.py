@@ -24,8 +24,8 @@ class PathFinder():
         while (True):
             new_previous_cells = []
             for cell in previous_cells:
-                neighbours_cells = maze.get_neighbours_open_cells(
-                    cell['coords']['x'], cell['coords']['y'])
+                neighbours_cells = PathFinder.get_neighbours_open_cells(
+                    maze, cell['coords']['x'], cell['coords']['y'])
                 for neighbour in neighbours_cells:
                     direction = ''
                     match neighbour['direction']:
@@ -67,3 +67,43 @@ class PathFinder():
             for cell in previous_cells:
                 absolute_cell_history.append(cell['coords'])
             previous_cells = new_previous_cells
+
+    def get_neighbours_open_cells(maze: Maze, x: int, y: int) ->\
+            list[dict[str, Any]]:
+        """ Return the cells open around the given coords """
+        neighbours_cells = []
+        # East
+        try:
+            if (x + 1 != maze.config.width
+                    and maze.cells[y][x].directions()['east'] != 1):
+                neighbours_cells.append({'x': x + 1, 'y': y,
+                                         'direction': 'east'})
+        except Exception:
+            pass
+
+        # West
+        try:
+            if (x - 1 != -1 and maze.cells[y][x].directions()['west'] != 1):
+                neighbours_cells.append({'x': x - 1, 'y': y,
+                                         'direction': 'west'})
+        except Exception:
+            pass
+
+        # South
+        try:
+            if (y + 1 != maze.config.height
+               and maze.cells[y][x].directions()['south'] != 1):
+                neighbours_cells.append({'x': x, 'y': y + 1,
+                                         'direction': 'south'})
+        except Exception:
+            pass
+
+        # North
+        try:
+            if (y - 1 != -1 and maze.cells[y][x].directions()['north'] != 1):
+                neighbours_cells.append({'x': x, 'y': y - 1,
+                                         'direction': 'north'})
+        except Exception:
+            pass
+
+        return neighbours_cells

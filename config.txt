@@ -12,7 +12,7 @@ EXIT=19,14
 OUTPUT_FILE=maze.txt
 
 # Enable/disable perfect maze
-PERFECT=False
+PERFECT=True
 
 # Seed-based generation
 #SEED=pathfinder_seed

@@ -4,7 +4,7 @@ __version__ = '0.1.0'
 
 # Objects folder import
 from src.objects.Cell import Cell
-from src.objects.Maze import Maze
+from src.objects.Maze import Maze, Controller
 from src.objects.PathFinder import PathFinder
 
 # Parsing
@@ -18,7 +18,7 @@ from src.misc.constants import Colors
 # Debug
 from src.misc.functions import debug
 
-__all__ = ['Cell', 'Maze',
+__all__ = ['Cell', 'Maze', 'Controller',
            'Config', 'get_parsed_config', 'get_args',
            'printerr', 'Colors',
            'debug', 'PathFinder']

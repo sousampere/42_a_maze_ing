@@ -1,10 +1,11 @@
 #!/usr/bin/python3
 
-from src import Maze, get_parsed_config, PathFinder
+
+from src import Maze, get_parsed_config, PathFinder, Controller
 from src import get_args
-from src import debug
 from src.misc.constants import Colors
 import sys
+from src.objects.Maze import MazeGenerator, MazeVisualizer
 from src.parsing import ConfigError, ParsingError
 from pydantic import ValidationError
 from termios import TCIFLUSH, tcflush
@@ -28,10 +29,10 @@ if __name__ == "__main__":
               f'{Colors.END}', file=sys.stderr)
         exit(1)
     maze = Maze(config)
-    debug(maze)
+    maze_generator = MazeGenerator(True)
     sys.stdout.write("\033[?25l")
-    maze.generate()
-    maze.stop_listener()
+    maze_generator.generate(maze)
+    Controller().stop_listener()
     sys.stdout.write("\033[?25h")
 
     # maze.visualize()
@@ -46,7 +47,7 @@ if __name__ == "__main__":
 
     print(maze.config)
     maze.make_maze_perfect(maze.config.perfect)
-    maze.visualize()
+    MazeVisualizer.visualize(maze)
     path_finder = PathFinder()
     print(PathFinder.find_path(maze))
     main()
