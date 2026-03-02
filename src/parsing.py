@@ -43,11 +43,11 @@ class Config(BaseModel):
         if self.exit_coords['x'] < 0 or self.exit_coords['y'] < 0:
             raise ConfigError(f'Invalid exit coords: {self.exit_coords}. '
                               f'Please use at least a 2x2 Maze.')
-        if self.exit_coords['x'] > self.width or self.exit_coords['y'] > \
+        if self.exit_coords['x'] >= self.width or self.exit_coords['y'] >= \
                 self.height:
             raise ConfigError(f'Invalid exit coords: {self.exit_coords}. '
                               f'Outside the maze\'s range.')
-        if self.entry_coords['x'] > self.width or self.entry_coords['y'] > \
+        if self.entry_coords['x'] >= self.width or self.entry_coords['y'] >= \
                 self.height:
             raise ConfigError(f'Invalid exit coords: {self.exit_coords}. '
                               f'Outside the maze\'s range.')

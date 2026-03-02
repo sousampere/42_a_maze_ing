@@ -29,8 +29,10 @@ if __name__ == "__main__":
         exit(1)
     maze = Maze(config)
     debug(maze)
+    sys.stdout.write("\033[?25l")
     maze.generate()
     maze.stop_listener()
+    sys.stdout.write("\033[?25h")
 
     # maze.visualize()
     if len(maze.get_protected_cells()) == 0:
