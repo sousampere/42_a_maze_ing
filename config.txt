@@ -1,5 +1,5 @@
 # Dimensions
-WIDTH=20
+WIDTH=19
 HEIGHT=15
 #WIDTH=15
 #HEIGHT=15
