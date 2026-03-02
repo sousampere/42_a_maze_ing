@@ -194,8 +194,7 @@ def get_parsed_config(config_path: str = '../config.txt') -> Config:
         output_file=config['OUTPUT_FILE'],
         perfect=config['PERFECT'],
         seed=config['SEED'],
-        display_ft_pattern=config['DISPLAY_FT_PATTERN'],
-        default_color=config['DEFAULT_COLOR']
+        display_ft_pattern=config['DISPLAY_FT_PATTERN']
         )
 
 
