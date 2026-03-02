@@ -36,8 +36,8 @@ class Maze():
         self.stop = False
         self.pause = False
         self.listener = keyboard.Listener(on_press=self._on_press)
-        self.listener.start()
         self.shortest_path = ''
+        self.output = config.output_file
 
     def setup_cells(self) -> None:
         # Adding cell to the maze
@@ -371,6 +371,7 @@ class Maze():
                     pass
 
     def generate(self) -> None:
+        self.listener.start()
         self.stop = False
         x = self.config.entry_coords['x']
         y = self.config.entry_coords['y']
@@ -411,6 +412,7 @@ class Maze():
                     if value == '':
                         self.pause = False
         self.visualize()
+        self.stop_listener()
         return None
 
     def output_maze(self, output_file: str) -> None:
