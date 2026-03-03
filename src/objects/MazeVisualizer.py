@@ -28,8 +28,10 @@ class MazeVisualizer():
                 elif (x == maze.config.exit_coords['x']
                       and y == maze.config.exit_coords['y']):
                     center_char = '🚀'
-                elif (maze.config.show_path and maze.is_path_cell(x, y)['status']):
-                    center_char = f'\033[1;37m{maze.is_path_cell(x, y)['emoji']}{maze.control.color}'
+                elif (maze.config.show_path
+                      and maze.is_path_cell(x, y)['status']):
+                    center_char = f'\033[1;37m\
+                    {maze.is_path_cell(x, y)['emoji']}{maze.control.color}'
                 else:
                     center_char = '  '
                 match char.get_hex_value():
