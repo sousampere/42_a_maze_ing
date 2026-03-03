@@ -1,7 +1,8 @@
 #!/usr/bin/python3
 
 
-from src import Maze, get_parsed_config, PathFinder, Controller, MazeGenerator, MazeVisualizer
+from src import Maze, get_parsed_config, PathFinder, Controller, \
+    MazeGenerator, MazeVisualizer
 from src import get_args
 from src.misc.constants import Colors
 import sys
