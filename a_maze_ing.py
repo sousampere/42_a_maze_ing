@@ -34,7 +34,7 @@ def main() -> None:
 
     # Maze preparation
     maze = Maze(config)
-    maze_generator = MazeGenerator(True)
+    maze_generator = MazeGenerator(config.animation)
     sys.stdout.write("\033[?25l")
 
     # Maze generation

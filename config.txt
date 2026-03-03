@@ -15,5 +15,8 @@ PERFECT=false
 # Seed-based generation
 #SEED=pathfinder_seed
 
+# Enable / disable animation
+ANIMATION=false
+
 # Display the 42 patern. Default in center if entry/exit coords make it possible
 DISPLAY_FT_PATTERN=False
