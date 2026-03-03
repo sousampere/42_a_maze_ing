@@ -1,0 +1,10 @@
+try/excepts
+docstrings
+make: debug
+unittest (optionnel)
+verifier que les autres flags soient optionnels
+revoir (page 7) les erreurs
+ajouter une touche de render de path (controller)
+ajouter documentation
+creer un paquet
+readme

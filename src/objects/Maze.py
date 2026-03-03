@@ -217,6 +217,7 @@ class Maze():
                     f'{self.config.exit_coords['y']}')
             f.write('\n')
             f.write(self.shortest_path)
+            f.write('\n')
         return None
 
     def make_maze_perfect(self, flag: bool) -> None:
