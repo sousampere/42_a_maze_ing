@@ -1,4 +1,6 @@
 
+from typing import Any
+
 from src import MazeVisualizer, Maze
 import random
 from src import get_args
@@ -6,9 +8,9 @@ from src import get_parsed_config
 
 
 class MazeGenerator():
-    def __init__(self, flag):
+    def __init__(self, flag: bool) -> None:
         self.visulalize = flag
-        self.maze = None
+        self.maze: Maze | None = None
 
     def generate(self, maze: Maze) -> None:
         maze.control.stop = False
@@ -57,10 +59,10 @@ class MazeGenerator():
         self.maze = maze
         return None
 
-    def get_generated_maze(self):
+    def get_generated_maze(self) -> Maze | None:
         return self.maze
 
-    def get_solution(self):
+    def get_solution(self) -> Any:
         from src import PathFinder
         return PathFinder.find_path(self.maze)
 

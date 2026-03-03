@@ -6,6 +6,7 @@ import sys
 
 
 class MazeVisualizer():
+    @staticmethod
     def visualize(maze: Maze) -> None:
         time.sleep(maze.control.speed)
         print("\033[H\033[J", end="")

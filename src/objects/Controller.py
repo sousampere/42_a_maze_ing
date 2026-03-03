@@ -4,7 +4,7 @@ from typing import Any
 
 
 class Controller():
-    def __init__(self):
+    def __init__(self) -> None:
         self.listener = keyboard.Listener(on_press=self._on_press)
         self.speed = 0.1
         self.colors = ['\033[0;31m',

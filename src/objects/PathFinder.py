@@ -7,7 +7,9 @@ from src import Maze
 
 class PathFinder():
     @staticmethod
-    def find_path(maze: Maze) -> Any:
+    def find_path(maze: Any) -> Any:
+        if maze is None:
+            return ''
         entry_x, entry_y = \
             maze.config.entry_coords['x'], maze.config.entry_coords['y']
         exit_x, exit_y = \
@@ -68,6 +70,7 @@ class PathFinder():
                 absolute_cell_history.append(cell['coords'])
             previous_cells = new_previous_cells
 
+    @staticmethod
     def get_neighbours_open_cells(maze: Maze, x: int, y: int) ->\
             list[dict[str, Any]]:
         """ Return the cells open around the given coords """
