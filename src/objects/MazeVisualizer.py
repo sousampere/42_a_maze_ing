@@ -31,7 +31,7 @@ class MazeVisualizer():
                 elif (maze.config.show_path
                       and maze.is_path_cell(x, y)['status']):
                     center_char = f'\033[1;37m\
-                    {maze.is_path_cell(x, y)['emoji']}{maze.control.color}'
+{maze.is_path_cell(x, y)['emoji']}{maze.control.color}'
                 else:
                     center_char = '  '
                 match char.get_hex_value():
