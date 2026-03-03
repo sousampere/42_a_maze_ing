@@ -28,6 +28,7 @@ class Config(BaseModel):
     perfect: bool
     seed: str
     animation: bool
+    show_path: bool
     display_ft_pattern: bool
 
     @model_validator(mode='after')
@@ -148,6 +149,7 @@ def get_parsed_config(config_path: str = '../config.txt') -> Config:
             # Bool
             if (line.startswith('PERFECT=')
                     or line.startswith('ANIMATION=')
+                    or line.startswith('SHOW_PATH=')
                     or line.startswith('DISPLAY_FT_PATTERN=')):
                 config = add_config(config=config,
                                     key=line.split('=')[0],
@@ -193,6 +195,7 @@ def get_parsed_config(config_path: str = '../config.txt') -> Config:
         perfect=config['PERFECT'],
         seed=config['SEED'],
         animation=config['ANIMATION'],
+        show_path=config['SHOW_PATH'],
         display_ft_pattern=config['DISPLAY_FT_PATTERN']
         )
 
