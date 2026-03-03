@@ -1,6 +1,6 @@
 # Dimensions
-WIDTH=8
-HEIGHT=8
+WIDTH=2
+HEIGHT=2
 
 # Entry/Exit coords
 ENTRY=0,0
@@ -23,3 +23,4 @@ SHOW_PATH=true
 
 # Display the 42 patern. Default in center if entry/exit coords make it possible
 DISPLAY_FT_PATTERN=True
+
