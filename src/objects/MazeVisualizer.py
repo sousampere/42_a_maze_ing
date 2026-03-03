@@ -102,7 +102,8 @@ class MazeVisualizer():
         print(f"{maze.control.color}{buffer}\033[0;0m")
         tcflush(sys.stdin.fileno(), TCIFLUSH)
 
-    def theme_selector(maze: Maze, cell_type: str):
+    @staticmethod
+    def theme_selector(maze: Maze, cell_type: str) -> str:
         if cell_type == 'entry':
             if (maze.control.color == '\033[1;32m'):  # green
                 return ('👽')
@@ -129,3 +130,4 @@ class MazeVisualizer():
                 return ('🌻​​')
             else:
                 return ('🏠')
+        return ''
