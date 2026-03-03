@@ -17,18 +17,19 @@ def main() -> None:
     except Exception:
         print(f'{Colors.RED}Could not get your arguments.'
               f' Please use a valid argument.{Colors.END}', file=sys.stderr)
+        exit(0)
 
     # Config object setup
     try:
         config = get_parsed_config(args['config'])
     except (ConfigError, ParsingError) as e:
         print(f'{Colors.RED}{e}{Colors.END}', file=sys.stderr)
-        exit(1)
+        exit(0)
     except ValidationError as e:
         print(f'{Colors.RED}Configuration error for {e.errors()[0]['loc'][0]}:'
               f' {e.errors()[0]['msg']}, got {e.errors()[0]['input']}.'
               f'{Colors.END}', file=sys.stderr)
-        exit(1)
+        exit(0)
 
     # Maze preparation
     maze = Maze(config)
@@ -57,6 +58,7 @@ def main() -> None:
     except Exception:
         print(f'{Colors.RED}Could not write your output file: '
               f'Please use a valid one.{Colors.END}', file=sys.stderr)
+        exit(0)
 
     # Display an error message if displaying the 42 logo is impossible
     if len(maze.get_protected_cells()) == 0:
@@ -66,6 +68,8 @@ def main() -> None:
 if __name__ == "__main__":
     try:
         main()
+        exit(1)
     except Exception as e:
         print(f'{Colors.RED}Something went wrong with the maze: '
               f'{e}{Colors.END}', file=sys.stderr)
+        exit(0)
