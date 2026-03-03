@@ -28,7 +28,6 @@ class Config(BaseModel):
     perfect: bool
     seed: str
     display_ft_pattern: bool
-    default_color: str
 
     @model_validator(mode='after')
     def validation(self) -> "Config":
@@ -55,9 +54,6 @@ class Config(BaseModel):
            and self.entry_coords['y'] == self.exit_coords['y']:
             raise ConfigError('Invalid entry and exit coords: '
                               'cannot be the same')
-        if self.default_color not in ['red', 'orange', 'yellow', 'pink',
-                                      'purple', 'blue', 'cyan', 'random']:
-            raise ConfigError('Invalid color in your configuration file.')
 
         # Initialize seed
         random.seed(self.seed)

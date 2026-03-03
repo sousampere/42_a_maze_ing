@@ -1,11 +1,10 @@
 #!/usr/bin/python3
 
 
-from src import Maze, get_parsed_config, PathFinder, Controller
+from src import Maze, get_parsed_config, PathFinder, Controller, MazeGenerator, MazeVisualizer
 from src import get_args
 from src.misc.constants import Colors
 import sys
-from src.objects.Maze import MazeGenerator, MazeVisualizer
 from src.parsing import ConfigError, ParsingError
 from pydantic import ValidationError
 from termios import TCIFLUSH, tcflush
