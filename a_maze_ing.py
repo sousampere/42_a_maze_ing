@@ -31,7 +31,10 @@ def main() -> None:
               f' {e.errors()[0]['msg']}, got {e.errors()[0]['input']}.'
               f'{Colors.END}', file=sys.stderr)
         exit(1)
-
+    except FileNotFoundError:
+        print(f'{Colors.RED}Your configuration file was'
+              f' not found.{Colors.END}', file=sys.stderr)
+        exit(1)
     # Maze preparation
     maze = Maze(config)
     maze_generator = MazeGenerator(config.animation)
@@ -45,11 +48,13 @@ def main() -> None:
 
     # Apply holes in the walls to make it unperfect
     maze.make_maze_perfect(maze.config.perfect)
-    MazeVisualizer.visualize(maze)  # Visualization with holes
 
     # Path finding
     PathFinder.find_path(maze)
     tcflush(sys.stdin.fileno(), TCIFLUSH)
+
+    # Visualization with holes + shortest path
+    MazeVisualizer.visualize(maze)
 
     # Output the maze to the output file
     try:
@@ -70,19 +75,20 @@ def main() -> None:
 
 
 if __name__ == "__main__":
-    try:
-        main()
-        exit(0)
-    except (KeyboardInterrupt):
-        tcflush(sys.stdin.fileno(), TCIFLUSH)
-        print('\033[H\033[J')
-        print(f'{Colors.RED}Aborted a_maze_ing. See you soon :D '
-              f'{Colors.END}', file=sys.stderr)
-        exit(1)
-    except (Exception) as e:
-        print(f'{Colors.RED}Something went wrong with the maze: '
-              f'{e}{Colors.END}', file=sys.stderr)
-    finally:
-        # Place the cursor at the start of the terminal
-        sys.stdout.write("\033[?25h")
-    exit(1)
+    # try:
+    main()
+    exit(0)
+    # except (KeyboardInterrupt):
+    #     tcflush(sys.stdin.fileno(), TCIFLUSH)
+    #     print('\033[H\033[J')
+    #     print(f'{Colors.RED}Aborted a_maze_ing. See you soon :D '
+    #           f'{Colors.END}', file=sys.stderr)
+    #     exit(1)
+    # except (Exception) as e:
+    #     print(f'{Colors.RED}Something went wrong with the maze: '
+    #           f'{e}{Colors.END}', file=sys.stderr)
+    # finally:
+    #     # Place the cursor at the start of the terminal
+    #     sys.stdout.write("\033[?25h")
+    # exit(1)
+

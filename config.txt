@@ -1,6 +1,6 @@
 # Dimensions
-WIDTH=18
-HEIGHT=18
+WIDTH=8
+HEIGHT=8
 
 # Entry/Exit coords
 ENTRY=0,0
@@ -16,7 +16,7 @@ PERFECT=false
 #SEED=pathfinder_seed
 
 # Enable / disable animation
-ANIMATION=false
+ANIMATION=True
 
 # Display the 42 patern. Default in center if entry/exit coords make it possible
 DISPLAY_FT_PATTERN=False
