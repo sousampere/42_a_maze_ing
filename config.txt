@@ -1,19 +1,19 @@
 # Dimensions
-WIDTH=8
-HEIGHT=8
+WIDTH=18
+HEIGHT=18
 
 # Entry/Exit coords
 ENTRY=0,0
-EXIT=7,7
+EXIT=0,1
 
-# Maze output file path
+# Maze output file path, should not contain spaces
 OUTPUT_FILE=maze.txt
 
 # Enable/disable perfect maze
-PERFECT=False
+PERFECT=false
 
 # Seed-based generation
 #SEED=pathfinder_seed
 
 # Display the 42 patern. Default in center if entry/exit coords make it possible
-#DISPLAY_FT_PATTERN=False
+DISPLAY_FT_PATTERN=False
