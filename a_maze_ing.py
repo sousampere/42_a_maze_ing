@@ -8,7 +8,6 @@ import sys
 from src.parsing import ConfigError, ParsingError
 from pydantic import ValidationError
 from termios import TCIFLUSH, tcflush
-import os
 
 
 def main() -> None:
@@ -40,7 +39,8 @@ def main() -> None:
     # Maze generation
     maze_generator.generate(maze)
     Controller().stop_listener()  # Stop the keys listening
-    sys.stdout.write("\033[?25h")  # Place the cursor at the start of the terminal
+    # Place the cursor at the start of the terminal
+    sys.stdout.write("\033[?25h")
 
     # Apply holes in the walls to make it unperfect
     maze.make_maze_perfect(maze.config.perfect)
@@ -67,6 +67,7 @@ def main() -> None:
         print(f'{Colors.RED}Your configuration made displaying '
               f'the 42 pattern impossible.{Colors.END}', file=sys.stderr)
 
+
 if __name__ == "__main__":
     try:
         main()
@@ -81,5 +82,6 @@ if __name__ == "__main__":
         print(f'{Colors.RED}Something went wrong with the maze: '
               f'{e}{Colors.END}', file=sys.stderr)
     finally:
-        sys.stdout.write("\033[?25h")  # Place the cursor at the start of the terminal
+        # Place the cursor at the start of the terminal
+        sys.stdout.write("\033[?25h")
     exit(1)

@@ -4,6 +4,7 @@ from src import Maze
 import time
 import sys
 
+
 class MazeVisualizer():
     def visualize(maze: Maze) -> None:
         time.sleep(maze.control.speed)
@@ -94,4 +95,3 @@ class MazeVisualizer():
             # print(f"\033[0;36m{line_2}\033[0;0m")
         print(f"{maze.control.color}{buffer}\033[0;0m")
         tcflush(sys.stdin.fileno(), TCIFLUSH)
-
