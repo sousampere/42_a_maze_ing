@@ -268,6 +268,22 @@ class Maze():
                     y_pos += 1
                     x_pos = 0
                 full_maze_done = True
+                x = self.config.entry_coords['x']
+                y = self.config.entry_coords['y']
+                if (self.cells[y][x].directions()['east'])\
+                        and x + 1 != self.config.width:
+                    breakable_walls.append({'x': x, 'y': y,
+                                            'direction': 'east'})
+                if (self.cells[y][x].directions()['north']) and y - 1 != -1:
+                    breakable_walls.append({'x': x, 'y': y,
+                                            'direction': 'north'})
+                if (self.cells[y][x].directions()['west']) and x - 1 != -1:
+                    breakable_walls.append({'x': x, 'y': y,
+                                            'direction': 'west'})
+                if (self.cells[y][x].directions()['south'])\
+                        and y + 1 != self.config.height:
+                    breakable_walls.append({'x': x, 'y': y,
+                                            'direction': 'south'})
             for wall in random.choices(breakable_walls,
                                        k=(1 + int(math.sqrt
                                                   (self.config.width

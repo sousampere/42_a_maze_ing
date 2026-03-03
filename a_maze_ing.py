@@ -75,20 +75,19 @@ def main() -> None:
 
 
 if __name__ == "__main__":
-    # try:
-    main()
-    exit(0)
-    # except (KeyboardInterrupt):
-    #     tcflush(sys.stdin.fileno(), TCIFLUSH)
-    #     print('\033[H\033[J')
-    #     print(f'{Colors.RED}Aborted a_maze_ing. See you soon :D '
-    #           f'{Colors.END}', file=sys.stderr)
-    #     exit(1)
-    # except (Exception) as e:
-    #     print(f'{Colors.RED}Something went wrong with the maze: '
-    #           f'{e}{Colors.END}', file=sys.stderr)
-    # finally:
-    #     # Place the cursor at the start of the terminal
-    #     sys.stdout.write("\033[?25h")
-    # exit(1)
-
+    try:
+        main()
+        exit(0)
+    except (KeyboardInterrupt):
+        tcflush(sys.stdin.fileno(), TCIFLUSH)
+        print('\033[H\033[J')
+        print(f'{Colors.RED}Aborted a_maze_ing. See you soon :D '
+              f'{Colors.END}', file=sys.stderr)
+        exit(1)
+    except (Exception) as e:
+        print(f'{Colors.RED}Something went wrong with the maze: '
+              f'{e}{Colors.END}', file=sys.stderr)
+    finally:
+        # Place the cursor at the start of the terminal
+        sys.stdout.write("\033[?25h")
+    exit(1)
