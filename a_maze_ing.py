@@ -72,10 +72,11 @@ def main() -> None:
     if len(maze.get_protected_cells()) == 0 and config.display_ft_pattern:
         print(f'{Colors.RED}Your configuration made displaying '
               f'the 42 pattern impossible.{Colors.END}', file=sys.stderr)
-    
+
     while True:
         MazeVisualizer.visualize(maze)
     maze.controller.stop_listener()
+
 
 if __name__ == "__main__":
     try:
