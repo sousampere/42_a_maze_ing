@@ -75,7 +75,6 @@ def main() -> None:
     
     while True:
         MazeVisualizer.visualize(maze)
-    maze.controller.stop_listener()
 
 if __name__ == "__main__":
     try:

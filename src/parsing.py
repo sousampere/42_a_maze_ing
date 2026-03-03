@@ -184,6 +184,10 @@ def get_parsed_config(config_path: str = '../config.txt') -> Config:
         config['DISPLAY_FT_PATTERN'] = True
     if 'DEFAULT_COLOR' not in config.keys():
         config['DEFAULT_COLOR'] = True
+    if 'ANIMATION' not in config.keys():
+        config['ANIMATION'] = True
+    if 'SHOW_PATH' not in config.keys():
+        config['SHOW_PATH'] = True
 
     # Create and return the Config object
     return Config(
