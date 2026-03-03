@@ -273,3 +273,31 @@ class Maze():
                                                   (self.config.width
                                                    + self.config.height)))):
                 self.break_wall(wall['x'], wall['y'], wall['direction'])
+    
+    def get_path_cells(self):
+        path_cells = []
+        x = self.config.entry_coords['x']
+        y = self.config.entry_coords['y']
+        for char in self.shortest_path:
+            if char == 'S':
+                y += 1
+                emoji = ' ↓'
+            if char == 'N':
+                y -= 1
+                emoji = ' ↑'
+            if char == 'E':
+                x += 1
+                emoji = ' →'
+            if char == 'W':
+                x -= 1
+                emoji = ' ←'
+            path_cells.append({'x': x,
+                               'y': y,
+                               'emoji': emoji})
+        return path_cells
+    
+    def is_path_cell(self, x: int, y: int) -> dict:
+        for cell in self.get_path_cells():
+            if cell['x'] == x and cell['y'] == y:
+                return {'status': True, 'emoji': cell['emoji']}
+        return {'status': False, 'emoji': None}

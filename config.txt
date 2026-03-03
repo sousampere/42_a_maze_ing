@@ -4,7 +4,7 @@ HEIGHT=8
 
 # Entry/Exit coords
 ENTRY=0,0
-EXIT=0,1
+EXIT=7,7
 
 # Maze output file path, should not contain spaces
 OUTPUT_FILE=maze.txt
@@ -19,7 +19,7 @@ PERFECT=false
 ANIMATION=True
 
 # Show/Hide the shortest path
-SHOW_PATH=True
+SHOW_PATH=true
 
 # Display the 42 patern. Default in center if entry/exit coords make it possible
 DISPLAY_FT_PATTERN=True
