@@ -11,8 +11,8 @@ def get_args() -> dict[str, Any]:
         epilog='Made with terror by DISØRDER++'
     )
     parser.add_argument(
-        '--config_path',
-        required=False,
+        'config_path',
+        nargs='?',
         help='Configuration file path.',
         default='./config.txt'
     )
