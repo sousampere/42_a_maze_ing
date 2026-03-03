@@ -71,4 +71,3 @@ class MazeGenerator():
         maze = Maze(config)
         MazeGenerator(self.visulalize).generate(maze)
         return maze
-

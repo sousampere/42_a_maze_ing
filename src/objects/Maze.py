@@ -2,15 +2,9 @@
 
 
 import random
-import time
-import sys
-from pynput import keyboard  # type: ignore[import-untyped]
-from itertools import cycle
-from termios import TCIFLUSH, tcflush
 
 from src import Cell
-from src.parsing import Config, get_parsed_config
-from src.misc.arguments import get_args
+from src.parsing import Config
 from typing import Any
 import math
 
@@ -279,4 +273,3 @@ class Maze():
                                                   (self.config.width
                                                    + self.config.height)))):
                 self.break_wall(wall['x'], wall['y'], wall['direction'])
-
