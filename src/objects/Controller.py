@@ -11,11 +11,10 @@ class Controller():
                        '\033[1;32m',
                        '\033[1;33m',
                        '\033[1;35m',
-                       '\033[0;35m',
                        '\033[0;34m',
                        '\033[0;36m']
         self.color_cycle = cycle(self.colors)
-        self.color = self.colors[6]
+        self.color = self.colors[5]
         self.stop = False
         self.pause = False
 

@@ -24,10 +24,32 @@ class MazeVisualizer():
                 l_1, l_2, l_3 = "", "", ""
                 if (x == maze.config.entry_coords['x']
                    and y == maze.config.entry_coords['y']):
-                    center_char = '🏠'
+                    if (maze.control.color == '\033[1;32m'):  # green
+                        center_char = '👽'
+                    elif (maze.control.color == '\033[0;31m'):  # red
+                        center_char = '🏎️ '
+                    elif (maze.control.color == '\033[1;33m'):  # yellow
+                        center_char = '🦜'
+                    elif (maze.control.color == '\033[1;35m'):  # pink
+                        center_char = '👩‍​'
+                    elif (maze.control.color == '\033[0;34m'):  # pink
+                        center_char = '🐝​​'
+                    else:
+                        center_char = '👪'
                 elif (x == maze.config.exit_coords['x']
                       and y == maze.config.exit_coords['y']):
-                    center_char = '🚀'
+                    if (maze.control.color == '\033[1;32m'):  # green
+                        center_char = '🚀'
+                    elif (maze.control.color == '\033[0;31m'):  # red
+                        center_char = '🏁'
+                    elif (maze.control.color == '\033[1;33m'):  # yellow
+                        center_char = '🏝️ '
+                    elif (maze.control.color == '\033[1;35m'):  # pink
+                        center_char = '🐕​​'
+                    elif (maze.control.color == '\033[0;34m'):  # pink
+                        center_char = '🌻​​'
+                    else:
+                        center_char = '🏠'
                 elif (maze.config.show_path
                       and maze.is_path_cell(x, y)['status']):
                     center_char = f'\033[1;37m\

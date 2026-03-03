@@ -1,6 +1,6 @@
 # Dimensions
-WIDTH=20
-HEIGHT=15
+WIDTH=8
+HEIGHT=8
 
 # Entry/Exit coords
 ENTRY=0,0
@@ -10,7 +10,7 @@ EXIT=7,7
 OUTPUT_FILE=maze.txt
 
 # Enable/disable perfect maze
-PERFECT=false
+PERFECT=true
 
 # Seed-based generation
 #SEED=pathfinder_seed
