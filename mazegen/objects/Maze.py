@@ -296,25 +296,32 @@ class Maze():
         path_cells = []
         x = self.config.entry_coords['x']
         y = self.config.entry_coords['y']
-        for char in self.shortest_path:
-            if char == 'S':
+        for char in range(len(self.shortest_path) - 1):
+            if self.shortest_path[char] == 'S':
                 y += 1
-                emoji = ' ↓'
-            if char == 'N':
+            if self.shortest_path[char] == 'N':
                 y -= 1
-                emoji = ' ↑'
-            if char == 'E':
+            if self.shortest_path[char] == 'E':
                 x += 1
-                emoji = ' →'
-            if char == 'W':
+            if self.shortest_path[char] == 'W':
                 x -= 1
+
+            if self.shortest_path[char + 1] == 'S':
+                emoji = ' ↓'
+            if self.shortest_path[char + 1] == 'N':
+                emoji = ' ↑'
+            if self.shortest_path[char + 1] == 'E':
+                emoji = ' →'
+            if self.shortest_path[char + 1] == 'W':
                 emoji = ' ←'
+
             path_cells.append({'x': x,
                                'y': y,
                                'emoji': emoji})
         return path_cells
 
     def is_path_cell(self, x: int, y: int) -> dict[str, str | bool | None]:
+        cells = self.get_path_cells()
         for cell in self.get_path_cells():
             if cell['x'] == x and cell['y'] == y:
                 return {'status': True, 'emoji': cell['emoji']}
