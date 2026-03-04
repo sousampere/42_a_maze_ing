@@ -16,10 +16,10 @@ PERFECT=true
 #SEED=pathfinder_seed
 
 # Enable / disable animation
-#ANIMATION=True
+ANIMATION=false
 
 # Show/Hide the shortest path
-#SHOW_PATH=true
+SHOW_PATH=false
 
 # Display the 42 patern. Default in center if entry/exit coords make it possible
 #DISPLAY_FT_PATTERN=True
