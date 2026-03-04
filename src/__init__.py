@@ -12,7 +12,7 @@ from src.objects.Maze import Maze
 from src.objects.MazeVisualizer import MazeVisualizer
 from src.objects.Controller import Controller
 from src.objects.PathFinder import PathFinder
-from src.objects.MazeGenerator import MazeGenerator
+from src.objects.MazeGenerator import MazeGenerator, SimpleMazeGenerator
 
 # Misc
 from src.misc.functions import printerr
@@ -25,4 +25,4 @@ __all__ = ['Cell', 'Maze', 'Controller',
            'Config', 'get_parsed_config', 'get_args',
            'printerr', 'Colors',
            'debug', 'PathFinder', 'MazeGenerator',
-           'MazeVisualizer']
+           'SimpleMazeGenerator', 'MazeVisualizer']
