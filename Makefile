@@ -68,3 +68,7 @@ clean:
 
 re: clean install
 	echo WIP
+
+build:
+	rm -rf dist
+	uv build
