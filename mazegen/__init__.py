@@ -12,7 +12,7 @@ from mazegen.objects.Maze import Maze
 from mazegen.objects.MazeVisualizer import MazeVisualizer
 from mazegen.objects.Controller import Controller
 from mazegen.objects.PathFinder import PathFinder
-from mazegen.objects.MazeGenerator import MazeGenerator, SimpleMazeGenerator
+from mazegen.objects.MazeGenerator import MazeGenerator
 
 # Misc
 from mazegen.misc.functions import printerr

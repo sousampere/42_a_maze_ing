@@ -48,7 +48,7 @@ sync:
 # ---------------- A VERIFIER -------------------
 
 run:
-	uv run python a_maze_ing.py config.txt
+	uv run python a_maze_ing_test.py config.txt
 
 flake8: sync
 	uv run python -m flake8 ./src

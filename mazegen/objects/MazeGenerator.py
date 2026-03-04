@@ -1,63 +1,58 @@
 
-from typing import Any
+from selectors import SelectorKey
+from typing import Any, Generator
 
 
 from mazegen import MazeVisualizer, Maze
 import random
 from mazegen import get_args
 from mazegen import get_parsed_config
+from mazegen.parsing import Config
 
 
-class SimpleMazeGenerator():
-    def __init__(self) -> None:
-        self.maze: Maze | None = None
+class MazeGenerator():
+    def __init__(self, config: Config, visualize: bool = True) -> None:
+        self.visulalize = visualize
+        self.config = config
+        self.maze = Maze(self.config)
 
-    def generate(self, maze: Maze) -> None:
-        x = maze.config.entry_coords['x']
-        y = maze.config.entry_coords['y']
+    def create_maze(self):
+        random.seed(self.config.seed)
+        self.maze = Maze(self.config)
+        return None
+
+    def generate_existing_maze(self, yield_maze: bool = False):
+        x = self.maze.config.entry_coords['x']
+        y = self.maze.config.entry_coords['y']
         origin_x = x
         origin_y = y
 
-        available_cells = maze.get_neighbours_cells(x, y)
+        available_cells = self.maze.get_neighbours_cells(x, y)
         random_cell = random.choice(available_cells)
-        maze.break_wall(x, y, random_cell['direction'])
+        self.maze.break_wall(x, y, random_cell['direction'])
         x = random_cell['x']
         y = random_cell['y']
         stack = []
-
-        # print(x, y)
-        # print(origin_x, origin_y)
-        # self.debug()
         stack.append({'x': x, 'y': y})
         while ([origin_x, origin_y] != [x, y] and len(stack) != 0):
+ 
             # While there are cells to visit
-            # print('Cells', self.get_neighbours_cells(x, y))
             x = stack[-1]['x']
             y = stack[-1]['y']
             stack.pop()
-            while (len(maze.get_neighbours_cells(x, y)) != 0):
+            while (len(self.maze.get_neighbours_cells(x, y)) != 0):
                 stack.append({'x': x, 'y': y})
-                available_cells = maze.get_neighbours_cells(x, y)
+                available_cells = self.maze.get_neighbours_cells(x, y)
                 random_cell = random.choice(available_cells)
-                maze.break_wall(x, y, random_cell['direction'])
+                self.maze.break_wall(x, y, random_cell['direction'])
                 x = random_cell['x']
                 y = random_cell['y']
                 stack.append({'x': x, 'y': y})
-        self.maze = maze
-        return None
+                if yield_maze:
+                    yield self.maze
+        return self.maze
 
-    def get_solution(self) -> Any:
-        from mazegen import PathFinder
-        return PathFinder.find_path(self.maze)
-
-
-class MazeGenerator(SimpleMazeGenerator):
-    def __init__(self, flag: bool) -> None:
-        self.visulalize = flag
-        self.maze: Maze | None = None
-
-    def generate(self, maze: Maze) -> None:
-        maze.control.stop = False
+    def generate(self, maze: Maze) -> Generator:
         x = maze.config.entry_coords['x']
         y = maze.config.entry_coords['y']
         origin_x = x
@@ -100,7 +95,6 @@ class MazeGenerator(SimpleMazeGenerator):
                         maze.control.pause = False
         if self.visulalize is True:
             MazeVisualizer.visualize(maze)
-        self.maze = maze
         return None
 
     def get_generated_maze(self) -> Maze | None:

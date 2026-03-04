@@ -2,6 +2,7 @@
 
 
 import random
+import re
 
 from mazegen import Cell
 from mazegen.parsing import Config

@@ -3,25 +3,6 @@ revision = 3
 requires-python = "==3.13.1"
 
 [[package]]
-name = "a-maze-ing"
-version = "0.1.0"
-source = { editable = "." }
-dependencies = [
-    { name = "flake8" },
-    { name = "mypy" },
-    { name = "pydantic" },
-    { name = "pynput" },
-]
-
-[package.metadata]
-requires-dist = [
-    { name = "flake8", specifier = ">=7.3.0" },
-    { name = "mypy", specifier = ">=1.19.1" },
-    { name = "pydantic", specifier = ">=2.12.5" },
-    { name = "pynput", specifier = ">=1.8.1" },
-]
-
-[[package]]
 name = "annotated-types"
 version = "0.7.0"
 source = { registry = "https://pypi.org/simple" }
@@ -69,6 +50,25 @@ wheels = [
     { url = "https://files.pythonhosted.org/packages/d4/be/24f8502db11d405232ac1162eb98069ca49c3306c1d75c6ccc61d9af8789/librt-0.8.1-cp313-cp313-win32.whl", hash = "sha256:086a32dbb71336627e78cc1d6ee305a68d038ef7d4c39aaff41ae8c9aa46e91a", size = 54969, upload-time = "2026-02-17T16:12:09.633Z" },
     { url = "https://files.pythonhosted.org/packages/5c/73/c9fdf6cb2a529c1a092ce769a12d88c8cca991194dfe641b6af12fa964d2/librt-0.8.1-cp313-cp313-win_amd64.whl", hash = "sha256:e11769a1dbda4da7b00a76cfffa67aa47cfa66921d2724539eee4b9ede780b79", size = 62000, upload-time = "2026-02-17T16:12:10.632Z" },
     { url = "https://files.pythonhosted.org/packages/d3/97/68f80ca3ac4924f250cdfa6e20142a803e5e50fca96ef5148c52ee8c10ea/librt-0.8.1-cp313-cp313-win_arm64.whl", hash = "sha256:924817ab3141aca17893386ee13261f1d100d1ef410d70afe4389f2359fea4f0", size = 52495, upload-time = "2026-02-17T16:12:11.633Z" },
+]
+
+[[package]]
+name = "mazegen"
+version = "0.2.0"
+source = { editable = "." }
+dependencies = [
+    { name = "flake8" },
+    { name = "mypy" },
+    { name = "pydantic" },
+    { name = "pynput" },
+]
+
+[package.metadata]
+requires-dist = [
+    { name = "flake8", specifier = ">=7.3.0" },
+    { name = "mypy", specifier = ">=1.19.1" },
+    { name = "pydantic", specifier = ">=2.12.5" },
+    { name = "pynput", specifier = ">=1.8.1" },
 ]
 
 [[package]]
