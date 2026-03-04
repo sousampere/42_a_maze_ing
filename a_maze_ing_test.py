@@ -1,8 +1,6 @@
 #!/usr/bin/python3
 
 
-from logging import config
-
 from mazegen import Maze, get_parsed_config, PathFinder, Controller, \
     MazeGenerator, MazeVisualizer
 from mazegen import get_args
@@ -108,7 +106,6 @@ if __name__ == "__main__":
         generator.get_generated_maze().output_maze(config.output_file)
         generator.get_generated_maze().control.stop_listener()
 
-
     if (config.animation):
         animate_maze()
     else:
@@ -117,4 +114,3 @@ if __name__ == "__main__":
     if (config.show_path):
         PathFinder.find_path(generator.maze)
     MazeVisualizer.visualize(generator.get_generated_maze())
-    

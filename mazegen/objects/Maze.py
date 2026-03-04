@@ -2,7 +2,6 @@
 
 
 import random
-import re
 
 from mazegen import Cell
 from mazegen.parsing import Config
@@ -321,7 +320,6 @@ class Maze():
         return path_cells
 
     def is_path_cell(self, x: int, y: int) -> dict[str, str | bool | None]:
-        cells = self.get_path_cells()
         for cell in self.get_path_cells():
             if cell['x'] == x and cell['y'] == y:
                 return {'status': True, 'emoji': cell['emoji']}
