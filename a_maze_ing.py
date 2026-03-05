@@ -91,6 +91,7 @@ def main() -> None:
                 else:
                     list(generator.generate_existing_maze())
                 generator.maze.make_maze_perfect(generator.maze.config.perfect)
+                generator.maze.output_maze(config.output_file)
             # Display an error message if displaying the 42 logo is impossible
             if len(generator.maze.get_protected_cells()) == 0\
                     and config.display_ft_pattern:

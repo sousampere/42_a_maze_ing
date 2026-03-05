@@ -202,7 +202,9 @@ class Maze():
                     pass
 
     def output_maze(self, output_file: str) -> None:
+        from mazegen import PathFinder
         """ Output the maze in a hexadecimal representation """
+        PathFinder.find_path(self)
         with open(output_file, 'w') as f:
             for line in self.cells:
                 for cell in line:
