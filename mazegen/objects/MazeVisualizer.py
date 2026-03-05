@@ -6,7 +6,7 @@ import sys
 
 
 class MazeVisualizer():
-    """ Helper class to visualize a maze """
+    """Helper class to visualize a maze"""
     @staticmethod
     def visualize(maze: Maze) -> None:
         time.sleep(maze.control.speed)
@@ -104,6 +104,16 @@ class MazeVisualizer():
 
     @staticmethod
     def theme_selector(maze: Maze, cell_type: str) -> str:
+        """Selects the correct theme to apply to the visualization,
+        depending on the color of the walls
+
+        Args:
+            maze (Maze): the current visualized maze
+            cell_type (str): 'entry' or 'exit'
+
+        Returns:
+            str: a string containing the required character, or nothing
+        """
         if cell_type == 'entry':
             if (maze.control.color == '\033[1;32m'):  # green
                 return ('👽')
