@@ -58,7 +58,6 @@ def main() -> None:
                     if value == '':
                         maze.control.pause = False
             generator.maze.output_maze(config.output_file)
-            # generator.maze.control.stop_listener()
         if (config.animation):
             animate_maze()
         else:

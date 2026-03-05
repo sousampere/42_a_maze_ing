@@ -11,7 +11,7 @@ class MazeGenerator():
         self.config = config
         self.maze = Maze(self.config)
 
-    def create_maze(self):
+    def create_maze(self) -> None:
         self.maze = Maze(self.config)
         return None
 
