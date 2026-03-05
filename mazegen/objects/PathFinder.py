@@ -8,6 +8,12 @@ from mazegen import Maze
 class PathFinder():
     @staticmethod
     def find_path(maze: Any) -> Any:
+        """ Tries to find the shortes path in a given maze
+        (from entry to exit)
+
+        Arg: maze (Maze)
+
+        Return: string containing the path cardinal directions (str)"""
         if maze is None:
             return ''
         entry_x, entry_y = \
@@ -73,7 +79,13 @@ class PathFinder():
     @staticmethod
     def get_neighbours_open_cells(maze: Maze, x: int, y: int) ->\
             list[dict[str, Any]]:
-        """ Return the cells open around the given coords """
+        """Get the neighbour cells with a wall open to the current
+        cell (x, y coordinates)
+
+        Returns:
+            list: list of cells, their position and direction from
+            the current cell
+        """
         neighbours_cells = []
         # East
         try:

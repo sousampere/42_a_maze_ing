@@ -31,14 +31,16 @@ class Cell():
 
     @staticmethod
     def validate_direction(direction: int) -> bool:
-        """ Validate the value for a cell's direction (0 or 1) """
+        """ Validate the value for a cell's direction (0 or 1)
+         Return True if the direction is valid """
         if (direction == 0 or direction == 1):
             return True
         raise CellDirectionException(f'Invalid direction {direction}. '
                                      'Must be 1 or 0.')
 
     def directions(self) -> dict[str, int]:
-        """ Returns all the directions values of a cell """
+        """ Returns all the directions values of a cell
+         return: dict['x', 'y'] """
         return {
             'north': self._north,
             'east': self._east,
@@ -47,7 +49,11 @@ class Cell():
             }
 
     def set_direction(self, direction: str, value: int) -> None:
-        """ Set the value for the given direction for the cell """
+        """ Set the value for the given direction for the cell
+
+        args:
+            direction: wall to set
+            value: 0 or 1"""
         available_directions = {
             'north': self._north,
             'east': self._east,
@@ -71,6 +77,7 @@ class Cell():
         return None
 
     def get_hex_value(self) -> str:
+        """ Returns the hex value of the current cell """
         int_value = int(f'{self._west}{self._south}'
                         f'{self._east}{self._north}', base=2)
         hex_value = hex(int_value)[2:].upper()

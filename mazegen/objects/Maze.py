@@ -24,6 +24,7 @@ class Maze():
         self.shortest_path = ''
 
     def setup_cells(self) -> None:
+        """ Setup the cells of the maze as F cells """
         # Adding cell to the maze
         for y in range(self._height):
             current_line = []
@@ -36,8 +37,11 @@ class Maze():
 
     def get_neighbours_cells(self, x: int, y: int) ->\
             list[dict[str, Any]]:
-        """ Return the cells around the given coords, that are breakable
-         and unvisited. """
+        """Return the neighbours cells around the current x,y cell
+
+        Returns:
+            list: cells around the current cell
+        """
         neighbours_cells = []
         # East
         try:
@@ -155,13 +159,20 @@ class Maze():
         return protected_cells
 
     def is_protected_cell(self, x: int, y: int) -> bool:
-        """ Know if a particular cell is protected or not """
+        """ Know if a particular cell (x,y) is protected or not """
         for cell in self.get_protected_cells():
             if cell['x'] == x and cell['y'] == y:
                 return True
         return False
 
     def break_wall(self, x: int, y: int, wall: str) -> None:
+        """Break a wall of the current cell if possible
+
+        Args:
+            x (int): cell x coord
+            y (int): cell y coord
+            wall (str): direction (north, south, ...)
+        """
         match wall:
             case 'north':
                 try:
@@ -189,8 +200,15 @@ class Maze():
                     pass
 
     def output_maze(self, output_file: str) -> None:
+        """Output the maze in the give file
+
+        Args:
+            output_file (str): file to output to
+
+        Returns:
+            None: None
+        """
         from mazegen import PathFinder
-        """ Output the maze in a hexadecimal representation """
         PathFinder.find_path(self)
         with open(output_file, 'w') as f:
             for line in self.cells:
@@ -209,6 +227,7 @@ class Maze():
         return None
 
     def make_maze_perfect(self, flag: bool) -> None:
+        """ Break random walls in the maze if flag is false """
         if flag is False:
             full_maze_done = False
             breakable_walls: list[dict[str, Any]] = []
@@ -280,6 +299,8 @@ class Maze():
                 self.break_wall(wall['x'], wall['y'], wall['direction'])
 
     def get_path_cells(self) -> list[dict[str, Any]]:
+        """ Return a list of cells that are on the
+         shortest possible path from the pathfinding. """
         path_cells = []
         x = self.config.entry_coords['x']
         y = self.config.entry_coords['y']
@@ -308,6 +329,8 @@ class Maze():
         return path_cells
 
     def is_path_cell(self, x: int, y: int) -> dict[str, str | bool | None]:
+        """ Return True if a cell is on the shortest path possible,
+         according to the cell's coordinates x and y """
         for cell in self.get_path_cells():
             if cell['x'] == x and cell['y'] == y:
                 return {'status': True, 'emoji': cell['emoji']}

@@ -12,10 +12,27 @@ class MazeGenerator():
         self.maze = Maze(self.config)
 
     def create_maze(self) -> None:
+        """Initialize the maze
+
+        Returns:
+            none: none
+        """
         self.maze = Maze(self.config)
         return None
 
     def generate_existing_maze(self, yield_maze: bool = False) -> Any:
+        """Use the generation algorythm to generate the maze
+
+        Args:
+            yield_maze (bool, optional): Yield the maze states or not.
+            Defaults to False.
+
+        Returns:
+            Any: Maze generated
+
+        Yields:
+            Iterator[Any]: generation state, cell by cell
+        """
         x = self.maze.config.entry_coords['x']
         y = self.maze.config.entry_coords['y']
         origin_x = x

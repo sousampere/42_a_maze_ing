@@ -12,6 +12,12 @@ from termios import TCIFLUSH, tcflush
 
 
 def main() -> None:
+    """Main execution script :
+    - parsing
+    - maze generation
+    - visualization
+    - output
+    """
     # Getting prompt arguments
     try:
         args = get_args()
@@ -65,7 +71,7 @@ def main() -> None:
             list(generator.generate_existing_maze())  # Execute the yield funct
     except Exception as e:
         print(f'{Colors.RED}Could not generate the maze : {e}.'
-              f' Please use a valid config.{Colors.END}', file=sys.stderr)
+              f'{Colors.END}', file=sys.stderr)
 
     generator.maze.make_maze_perfect(generator.maze.config.perfect)
 
@@ -102,9 +108,10 @@ def main() -> None:
                       file=sys.stderr)
     except (KeyboardInterrupt):
         print("", end="\r")
-        generator.maze.control.stop_listener()
-        print(f'{Colors.RED}Ended a_maze_ing. See you soon :D '
+        print(f'{Colors.GREEN}Ended a_maze_ing. See you soon :D '
               f'{Colors.END}', file=sys.stderr)
+    finally:
+        generator.maze.control.stop_listener()
 
 
 if __name__ == "__main__":
@@ -114,7 +121,7 @@ if __name__ == "__main__":
     except (KeyboardInterrupt):
         tcflush(sys.stdin.fileno(), TCIFLUSH)
         print('\033[H\033[J')
-        print(f'{Colors.RED}Ended a_maze_ing. See you soon :D '
+        print(f'{Colors.GREEN}Ended a_maze_ing. See you soon :D '
               f'{Colors.END}', file=sys.stderr)
         exit(0)
     except Exception as e:

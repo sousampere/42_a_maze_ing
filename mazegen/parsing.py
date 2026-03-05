@@ -19,7 +19,17 @@ class ConfigError(Exception):
 
 
 class Config(BaseModel):
-    """ Config object, containing the configuration data """
+    """Config validation class
+
+    Args:
+        BaseModel (-): -
+
+    Raises:
+        ConfigError: Invalid config
+
+    Returns:
+        None: None
+    """
     width: int = Field(ge=2)
     height: int = Field(ge=2)
     entry_coords: dict[str, int]
@@ -33,6 +43,14 @@ class Config(BaseModel):
 
     @model_validator(mode='after')
     def validation(self) -> "Config":
+        """Validation after the auto validation from pydantic
+
+        Raises:
+            ConfigError: Invalid configuration
+
+        Returns:
+            Config: Object containing the good config
+        """
         # Verify that there is no space in the output_file name
         if ' ' in self.output_file:
             raise ConfigError(f'Invalid file name: {self.output_file}')
@@ -64,7 +82,21 @@ class Config(BaseModel):
 
 def add_config(config: dict[str, Any], key: str, value: str, type: object,
                line: int) -> dict[str, Any]:
-    """ Adding configuration line to the config dictionnary """
+    """Configuration preparation for file parsing
+
+    Args:
+        config (dict[str, Any]): current configuration dict
+        key (str): config key
+        value (str): config value
+        type (object): int, str, etc,
+        line (int): current line of the config
+
+    Raises:
+        ParsingError: Error when parsing the file
+
+    Returns:
+        dict[str, Any]: New config preparation dict
+    """
     # Integer
     if type is int:
         try:
