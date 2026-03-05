@@ -50,6 +50,7 @@ def main() -> None:
             for maze in generator.generate_existing_maze(yield_maze=True):
                 MazeVisualizer.visualize(maze)
                 if maze.control.stop is True:
+                    generator.maze.control.stop_listener()
                     generator.create_maze()
                     animate_maze()
                     break
@@ -85,6 +86,7 @@ def main() -> None:
             PathFinder.find_path(generator.maze)
             MazeVisualizer.visualize(generator.maze)
             if generator.maze.control.stop is True:
+                generator.maze.control.stop_listener()
                 generator.create_maze()
                 if (config.animation):
                     animate_maze()

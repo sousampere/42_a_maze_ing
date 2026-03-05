@@ -16,7 +16,7 @@ PERFECT=true
 #SEED=pathfinder_seed
 
 # Enable / disable animation
-ANIMATION=true
+ANIMATION=false
 
 # Show/Hide the shortest path
 SHOW_PATH=true
