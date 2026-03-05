@@ -5,6 +5,7 @@ from typing import Any
 
 
 class Controller:
+    """A class for key pressing detection"""
     def __init__(self, config: Config) -> None:
         """Initiliazes the controller's values
 
