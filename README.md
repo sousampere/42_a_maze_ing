@@ -190,7 +190,18 @@ Like the push_swap project that we did together, [lbonnet](https://github.com/kl
 
 We will that this in consideration for the future projects: ***<ins>Planning is not an option</ins>***.
 
-Otherwise, we were good at making our parts of the code work together. We did't use any specific tool.
+Otherwise, we were good at making our parts of the code work together..
+
+#### Specific tools used
+
+|Tool|Usage|
+|---|---|
+|argparse (python package)|Argument parsing|
+|pynput (python package)|Keyboard keys interception|
+|pydantic (python package)|Data validation for parsing|
+|flake8 (python package)|Check the flake8 norm|
+|mypy (python package)|Check the mypy norm|
+|uv (python package manager)|Project management and package building|
 
 ## 🚀 Authors and contributions
 
