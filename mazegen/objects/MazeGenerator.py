@@ -10,7 +10,6 @@ class MazeGenerator():
         self.maze = Maze(self.config)
 
     def create_maze(self):
-        random.seed(self.config.seed)
         self.maze = Maze(self.config)
         return None
 

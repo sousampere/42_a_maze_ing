@@ -84,9 +84,14 @@ def main() -> None:
 
     try:
         while (True):
-
             PathFinder.find_path(generator.maze)
             MazeVisualizer.visualize(generator.maze)
+            if generator.maze.control.stop is True:
+                generator.create_maze()
+                if (config.animation):
+                    animate_maze()
+                else:
+                    list(generator.generate_existing_maze())
             # Display an error message if displaying the 42 logo is impossible
             if len(generator.maze.get_protected_cells()) == 0\
                     and config.display_ft_pattern:
