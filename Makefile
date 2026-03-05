@@ -63,6 +63,11 @@ lint: flake8 mypy
 
 lint-strict: flake8 mypy-strict
 
+flint:
+	@echo 🔥🔥🔥
+	uv run python -m flake8 ./mazegen
+	uv run python -m mypy . --strict
+
 clean:
 	echo WIP
 
@@ -72,3 +77,6 @@ re: clean install
 build:
 	rm -rf dist
 	uv build
+
+debug:
+	uv run python -m pdb a_maze_ing.py config.txt

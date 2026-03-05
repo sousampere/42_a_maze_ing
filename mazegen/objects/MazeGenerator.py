@@ -1,3 +1,5 @@
+from typing import Any
+
 from mazegen import Maze
 import random
 from mazegen.parsing import Config
@@ -13,7 +15,7 @@ class MazeGenerator():
         self.maze = Maze(self.config)
         return None
 
-    def generate_existing_maze(self, yield_maze: bool = False):
+    def generate_existing_maze(self, yield_maze: bool = False) -> Any:
         x = self.maze.config.entry_coords['x']
         y = self.maze.config.entry_coords['y']
         origin_x = x

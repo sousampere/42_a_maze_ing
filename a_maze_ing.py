@@ -46,7 +46,7 @@ def main() -> None:
 
     # Maze generation
     try:
-        def animate_maze():
+        def animate_maze() -> None:
             for maze in generator.generate_existing_maze(yield_maze=True):
                 MazeVisualizer.visualize(maze)
                 if maze.control.stop is True:
