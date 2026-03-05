@@ -6,6 +6,13 @@ from typing import Any
 
 class Controller:
     def __init__(self, config: Config) -> None:
+        """Initiliazes the controller's values
+
+        Args:
+            config (Config): the current verified and parsed config
+
+        Returns: None
+        """
         self.listener = keyboard.Listener(on_press=self._on_press)
         self.speed = 0.1
         self.colors = [
@@ -21,8 +28,19 @@ class Controller:
         self.color = self.colors[5]
         self.stop = False
         self.pause = False
+        return None
 
     def _on_press(self, key: Any) -> None:
+        """Key controller, executes an action
+        each time a certain keyboard key is pressed
+
+        Keys accepted are '+', '-', 'c', 'r', 'p' and 's'
+
+        Args:
+            key (Any): the key pressed, sent by the listener
+
+        Returns: None
+        """
         try:
             if key.char == "+":
                 self.speed = max(0.03, self.speed - 0.01)
@@ -41,9 +59,20 @@ class Controller:
                     self.enable_path = False
         except AttributeError:
             pass
+        return None
 
     def start_listener(self) -> None:
+        """Starts the listener that will listen to stdin
+
+        Returns: None
+        """
         self.listener.start()
+        return None
 
     def stop_listener(self) -> None:
+        """Stops the listener
+
+        Returns: None
+        """
         self.listener.stop()
+        return None
