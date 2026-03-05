@@ -162,8 +162,8 @@ def get_parsed_config(config_path: str = '../config.txt') -> Config:
                                 'OUTPUT_FILE', 'ENTRY']
     for parameter in mandatory_configurations:
         if parameter not in config.keys():
-            raise ParsingError(f'Missing {parameter} parameter in your'
-                               'configuration file')
+            raise ParsingError(f'Missing {parameter} parameter in your '
+                               'configuration file.')
 
     # Verify that the configuration Entry and Exit have both x and y coords
     if len(config['ENTRY']) != 2:
