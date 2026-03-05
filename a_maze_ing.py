@@ -58,7 +58,7 @@ def main() -> None:
                     if value == '':
                         maze.control.pause = False
             generator.maze.output_maze(config.output_file)
-            generator.maze.control.stop_listener()
+            # generator.maze.control.stop_listener()
         if (config.animation):
             animate_maze()
         else:
@@ -69,10 +69,6 @@ def main() -> None:
 
     generator.maze.make_maze_perfect(
         generator.maze.config.perfect)
-
-    if (config.show_path):
-        PathFinder.find_path(generator.maze)
-    MazeVisualizer.visualize(generator.maze)
 
     # Output the maze to the output file
     try:
@@ -86,11 +82,18 @@ def main() -> None:
               f'Please use a valid one.{Colors.END}', file=sys.stderr)
         exit(1)
 
-    # Display an error message if displaying the 42 logo is impossible
-    if len(generator.maze.get_protected_cells()) == 0\
-            and config.display_ft_pattern:
-        print(f'{Colors.RED}Your configuration made displaying '
-              f'the 42 pattern impossible.{Colors.END}', file=sys.stderr)
+    try:
+        while (True):
+
+            PathFinder.find_path(generator.maze)
+            MazeVisualizer.visualize(generator.maze)
+            # Display an error message if displaying the 42 logo is impossible
+            if len(generator.maze.get_protected_cells()) == 0\
+                    and config.display_ft_pattern:
+                print(f'{Colors.RED}Your configuration made displaying '
+                      f'the 42 pattern impossible.{Colors.END}', file=sys.stderr)
+    except (KeyboardInterrupt):
+        generator.maze.control.stop_listener()
 
 
 if __name__ == "__main__":

@@ -19,7 +19,7 @@ class Maze():
         self.cells: list[list[Cell]] = []
         self.setup_cells()
         self.config = config
-        self.control = Controller()
+        self.control = Controller(self.config)
         self.control.start_listener()
         self.shortest_path = ''
 
