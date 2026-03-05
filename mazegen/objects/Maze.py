@@ -161,19 +161,6 @@ class Maze():
                 return True
         return False
 
-    def fill_cells(self) -> None:
-        choices = ['0', '1', '2', '3',
-                   '4', '5', '6', '7',
-                   '8', '9', 'A', 'B',
-                   'C', 'D', 'E',]
-
-        for y in range(self._height):
-            for x in range(self._width):
-                if not self.is_protected_cell(x=x, y=y):
-                    self.cells[y][x] = \
-                        Cell.convert_hex_to_cell(random.choice(choices))
-        return None
-
     def break_wall(self, x: int, y: int, wall: str) -> None:
         match wall:
             case 'north':

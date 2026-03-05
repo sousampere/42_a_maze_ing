@@ -15,11 +15,7 @@ from mazegen.objects.PathFinder import PathFinder
 from mazegen.objects.MazeGenerator import MazeGenerator
 
 # Misc
-from mazegen.misc.functions import printerr
 from mazegen.misc.constants import Colors
-
-# Debug
-from mazegen.misc.functions import debug
 
 __all__ = ['Cell', 'Maze', 'Controller',
            'Config', 'get_parsed_config', 'get_args',
