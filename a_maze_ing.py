@@ -101,7 +101,10 @@ def main() -> None:
                       f'the 42 pattern impossible.{Colors.END}',
                       file=sys.stderr)
     except (KeyboardInterrupt):
+        print("", end="\r")
         generator.maze.control.stop_listener()
+        print(f'{Colors.RED}Ended a_maze_ing. See you soon :D '
+              f'{Colors.END}', file=sys.stderr)
 
 
 if __name__ == "__main__":
@@ -113,7 +116,7 @@ if __name__ == "__main__":
         print('\033[H\033[J')
         print(f'{Colors.RED}Ended a_maze_ing. See you soon :D '
               f'{Colors.END}', file=sys.stderr)
-        exit(1)
+        exit(0)
     except Exception as e:
         print(f'{Colors.RED}Could not create the maze: '
               f'{e}.{Colors.END}', file=sys.stderr)
