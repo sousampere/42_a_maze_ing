@@ -77,3 +77,6 @@ re: clean install
 build:
 	rm -rf dist
 	uv build
+
+debug:
+	uv run python -m pdb a_maze_ing.py config.txt
