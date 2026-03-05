@@ -166,7 +166,6 @@ class Maze():
                    '4', '5', '6', '7',
                    '8', '9', 'A', 'B',
                    'C', 'D', 'E',]
-        random.seed(self.config.seed)
 
         for y in range(self._height):
             for x in range(self._width):
