@@ -1,6 +1,6 @@
 # Dimensions
-WIDTH=11
-HEIGHT=11
+WIDTH=8
+HEIGHT=8
 
 # Entry/Exit coords
 ENTRY=0,0
@@ -16,7 +16,7 @@ PERFECT=true
 #SEED=pathfinder_seed
 
 # Enable / disable animation
-ANIMATION=false
+ANIMATION=true
 
 # Show/Hide the shortest path
 SHOW_PATH=false

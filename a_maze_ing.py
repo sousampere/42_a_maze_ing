@@ -91,7 +91,8 @@ def main() -> None:
             if len(generator.maze.get_protected_cells()) == 0\
                     and config.display_ft_pattern:
                 print(f'{Colors.RED}Your configuration made displaying '
-                      f'the 42 pattern impossible.{Colors.END}', file=sys.stderr)
+                      f'the 42 pattern impossible.{Colors.END}',
+                      file=sys.stderr)
     except (KeyboardInterrupt):
         generator.maze.control.stop_listener()
 
