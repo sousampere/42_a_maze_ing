@@ -69,8 +69,8 @@ def main() -> None:
             animate_maze()
         else:
             list(generator.generate_existing_maze())  # Execute the yield funct
-    except Exception as e:
-        print(f'{Colors.RED}Could not generate the maze : {e}.'
+    except Exception:
+        print(f'{Colors.RED}Could not generate the maze.'
               f'{Colors.END}', file=sys.stderr)
 
     generator.maze.make_maze_perfect(generator.maze.config.perfect)

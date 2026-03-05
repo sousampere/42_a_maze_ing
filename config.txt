@@ -1,6 +1,6 @@
 # Dimensions
-WIDTH=10
-HEIGHT=10
+WIDTH=49
+HEIGHT=23
 
 # Entry/Exit coords
 ENTRY=0,0

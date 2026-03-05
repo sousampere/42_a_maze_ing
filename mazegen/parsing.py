@@ -30,8 +30,8 @@ class Config(BaseModel):
     Returns:
         None: None
     """
-    width: int = Field(ge=2)
-    height: int = Field(ge=2)
+    width: int = Field(ge=2, le=49)
+    height: int = Field(ge=2, le=23)
     entry_coords: dict[str, int]
     exit_coords: dict[str, int]
     output_file: str

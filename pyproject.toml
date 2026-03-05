@@ -1,6 +1,6 @@
 [project]
 name = "mazegen"
-version = "0.2.0"
+version = "1.0.1"
 description = "A-Maze-Ing project from School 42, by gtourdia and lbonnnet"
 readme = "README.md"
 requires-python = "==3.13.1"

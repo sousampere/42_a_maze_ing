@@ -69,10 +69,10 @@ flint:
 	uv run python -m mypy . --strict
 
 clean:
-	echo WIP
+	rm -rf .mypy_cache dist
 
 re: clean install
-	echo WIP
+
 
 build:
 	rm -rf dist
