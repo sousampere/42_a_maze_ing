@@ -5,6 +5,8 @@ from typing import Any
 
 
 def get_args() -> dict[str, Any]:
+    """ Get arguments using argparse:
+     One single arg corresponding to the config path """
     parser = argparse.ArgumentParser(
         prog='a-maze-ing',
         description='A-maze-ing program made by lbonnet & gtourdia.',

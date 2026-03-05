@@ -45,6 +45,9 @@ def main():
     # Save the maze to a file
     generator.maze.output_maze(config.output_file)
 
+    # Print the solution
+    print(generator.maze.shortest_path)
+
 if __name__ == "__main__":
     main()
 

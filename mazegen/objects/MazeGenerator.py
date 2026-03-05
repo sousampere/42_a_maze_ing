@@ -6,6 +6,7 @@ from mazegen.parsing import Config
 
 
 class MazeGenerator():
+    """ Object that generates a maze and gives access to it """
     def __init__(self, config: Config, visualize: bool = True) -> None:
         self.visulalize = visualize
         self.config = config

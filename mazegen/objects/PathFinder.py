@@ -6,6 +6,7 @@ from mazegen import Maze
 
 
 class PathFinder():
+    """ Object containing a method to find a path """
     @staticmethod
     def find_path(maze: Any) -> Any:
         """ Tries to find the shortes path in a given maze

@@ -3,10 +3,12 @@
 # Avoir les 4 directions
 
 class CellException(Exception):
+    """ Exception for cells """
     pass
 
 
 class CellDirectionException(CellException):
+    """ Exception for cells direction """
     pass
 
 

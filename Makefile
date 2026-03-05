@@ -23,9 +23,6 @@ CYAN=\033[0;36m
 GREEN=\033[0;32m
 RESET=\033[0m
 
-# MAIN VARIABLES
-INTERPRETER			=	python3
-
 
 install:
 	@echo "$(YELLOW)╔════════════════════════════════════════════════════════════════╗"
@@ -51,7 +48,7 @@ run:
 	uv run python a_maze_ing.py config.txt
 
 flake8: sync
-	uv run python -m flake8 ./src
+	uv run python -m flake8 ./mazegen
 
 mypy: sync
 	uv run python -m mypy . --warn-return-any --warn-unused-ignores --ignore-missing-imports --disallow-untyped-defs --check-untyped-defs
@@ -69,7 +66,7 @@ flint:
 	uv run python -m mypy . --strict
 
 clean:
-	rm -rf .mypy_cache dist
+	rm -rf .mypy_cache dist .venv .vscode
 
 re: clean install
 
