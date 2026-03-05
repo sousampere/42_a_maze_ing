@@ -67,8 +67,7 @@ def main() -> None:
         print(f'{Colors.RED}Could not generate the maze : {e}.'
               f'{Colors.END}', file=sys.stderr)
 
-    generator.maze.make_maze_perfect(
-        generator.maze.config.perfect)
+    generator.maze.make_maze_perfect(generator.maze.config.perfect)
 
     # Output the maze to the output file
     try:
@@ -92,6 +91,7 @@ def main() -> None:
                     animate_maze()
                 else:
                     list(generator.generate_existing_maze())
+                generator.maze.make_maze_perfect(generator.maze.config.perfect)
             # Display an error message if displaying the 42 logo is impossible
             if len(generator.maze.get_protected_cells()) == 0\
                     and config.display_ft_pattern:
