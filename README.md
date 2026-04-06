@@ -241,5 +241,4 @@ Otherwise, we were good at making our parts of the code work together..
 - Flake8, since [gtourdia](https://github.com/sousampere) didn't really pay attention about it ;)
 
 Other tasks were done by the two of us.
-
-![42Mulhouse](https://camo.githubusercontent.com/242a608f6e84c19ca24b2fb5c5935d921ff5e79090a91d8b2be3c72626c66272/68747470733a2f2f6173736574732e6b6d302e6f6d65726c6f636c69656e74732e636f6d2f636f6d6d756e6974792f63666265356130622d373633372d343361302d393466392d3764663266633238386331642e6a7067)
+![Logo](https://github.com/sousampere/sousampere/blob/main/42mulhouse.png?raw=true)
